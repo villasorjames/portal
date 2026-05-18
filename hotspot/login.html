@@ -6,10 +6,10 @@
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#05080d" />
+    <meta name="theme-color" content="#0c0a14" />
     <meta name="description" content="Secure WiFi hotspot access portal." />
     <script>if(window.history&&window.history.replaceState){window.history.replaceState(null,document.title,window.location.href)}</script>
-    <title>Internet hotspot - Log in</title>
+    <title>Internet Hotspot - Log in</title>
     <script>var _ts=Date.now();document.write('<link rel="stylesheet" href="css/style.css?ts='+_ts+'">');document.write('<script src="js/core.js?ts='+_ts+'"><\/script>');</script>
 </head>
 
@@ -51,112 +51,127 @@
 
     <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <div class="ie-fixMinHeight">
-        <main class="main">
-            <div class="wrap">
-                <div class="container">
+    <div class="page">
+        <div class="page-inner">
 
-                    <header class="header">
-                        <h1 id="hotspotName">SPACE PORTAL</h1>
-                        <div id="vendoName">JuanFi Vendo 1</div>
-                        <div class="flex-between font-small opacity-75">
-                            <span>$(ip)</span>
-                            <span>$(mac)</span>
-                        </div>
-                        <div class="flex-between font-small" style="margin-top:6px">
-                            <span>EXP: <span id="expiry">--</span></span>
-                            <span id="vendoStatus">NodeMCU: <span class="vendo-dot"></span></span>
-                        </div>
-                    </header>
-
-                    <section class="body">
-                        <div class="time-wrapper flex text-align-center highlight" role="timer" aria-label="Session time remaining" style="position:relative">
-                            <span class="session-status" id="sessionStatus" style="position:absolute;top:6px;left:8px"><span class="session-dot" id="sessionDot"></span><span class="session-label"></span></span>
-                            <div>
-                                <p class="time" id="days">00</p>
-                                <p class="label">DAYS</p>
-                            </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
-                            </div>
-                            <div>
-                                <p class="time" id="hours">00</p>
-                                <p class="label">HOURS</p>
-                            </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
-                            </div>
-                            <div>
-                                <p class="time" id="minutes">00</p>
-                                <p class="label">MINUTES</p>
-                            </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
-                            </div>
-                            <div>
-                                <p class="time" id="seconds">00</p>
-                                <p class="label">SECONDS</p>
-                            </div>
-                        </div>
-
-                        $(if trial == "no")
-                        <div class="flex-between bordered-thin mt-n10" id="resumeWrapper" style="display:none">
-                            <button type="button" id="resumeButton" style="width: 100%;" onclick="doResume()">RESUME</button>
-                        </div>
-
-                        <button type="button" class="btn" onclick="openModal(0)" id="insert-coin-button"
-                            user-type="new" aria-label="Insert coin to purchase access">
-                            <strong>INSERT COIN</strong>
-                            <div id="container-stars">
-                                <div id="stars"></div>
-                            </div>
-                            <div id="glow">
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                            </div>
-                        </button>
-
-                        <div class="bordered">
-                            <div class="inputBox mb-20">
-                                <input type="text" id="convertVoucherInput" aria-label="Voucher code">
-                                <span>Voucher</span>
-                            </div>
-                            <div class="mb-10">
-                                <button type="button" onclick="initConvertVoucher()">SUBMIT</button>
-                            </div>
-                            <div id="gcash-button-wrapper"></div>
-                        </div>
-                        $(else)
-                        <button type="button" class="btn" onclick="openModal(5)" aria-label="Start free trial">
-                            <strong>FREE TRIAL</strong>
-                            <div id="container-stars">
-                                <div id="stars"></div>
-                            </div>
-                            <div id="glow">
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                            </div>
-                        </button>
-                        $(endif)
-                    </section>
-
-                    <footer class="footer flex">
-                        <button type="button" id="memberButton" class="footer-button" onclick="openModal(1)">MEMBER</button>
-                        <button type="button" id="ratesButton" class="footer-button" onclick="openModal(2)">RATES</button>
-                    </footer>
-
+            <!-- Header -->
+            <div class="card card-header">
+                <div class="wifi-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                        <circle cx="12" cy="20" r="1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1 id="hotspotName">HOTSPOT</h1>
+                <div id="vendoName">JuanFi Vendo 1</div>
+                <div class="meta-row">
+                    <div class="meta-item">
+                        <span class="meta-label">IP</span>
+                        <span class="meta-val">$(ip)</span>
+                    </div>
+                    <div class="meta-sep"></div>
+                    <div class="meta-item">
+                        <span class="meta-label">MAC</span>
+                        <span class="meta-val">$(mac)</span>
+                    </div>
+                    <div class="meta-sep"></div>
+                    <div class="meta-item">
+                        <span class="meta-label">EXP</span>
+                        <span class="meta-val" id="expiry">--</span>
+                    </div>
+                    <div class="meta-sep"></div>
+                    <div class="meta-item" id="vendoStatus">
+                        <span class="meta-label">NODE</span>
+                        <span class="vendo-dot"></span>
+                    </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Session countdown -->
+            <div class="card card-timer">
+                <div class="timer-status-row">
+                    <span class="session-status" id="sessionStatus" style="position:relative">
+                        <span class="session-dot" id="sessionDot"></span>
+                        <span class="session-label"></span>
+                    </span>
+                </div>
+                <div class="timer-grid" role="timer" aria-label="Session time remaining">
+                    <div class="timer-block">
+                        <span class="time" id="days">00</span>
+                        <span class="t-label">DAYS</span>
+                    </div>
+                    <span class="t-sep">:</span>
+                    <div class="timer-block">
+                        <span class="time" id="hours">00</span>
+                        <span class="t-label">HRS</span>
+                    </div>
+                    <span class="t-sep">:</span>
+                    <div class="timer-block">
+                        <span class="time" id="minutes">00</span>
+                        <span class="t-label">MIN</span>
+                    </div>
+                    <span class="t-sep">:</span>
+                    <div class="timer-block">
+                        <span class="time" id="seconds">00</span>
+                        <span class="t-label">SEC</span>
+                    </div>
+                </div>
+            </div>
+
+            $(if trial == "no")
+            <!-- Resume button (hidden by default, shown by JS) -->
+            <div id="resumeWrapper" style="display:none">
+                <button type="button" id="resumeButton" onclick="doResume()">RESUME</button>
+            </div>
+
+            <!-- Insert coin -->
+            <button type="button" class="btn-extend" onclick="openModal(0)" id="insert-coin-button"
+                user-type="new" aria-label="Insert coin to purchase access">
+                <strong>INSERT COIN</strong>
+                <div id="container-stars"><div id="stars"></div></div>
+                <div id="glow"><div class="circle"></div><div class="circle"></div></div>
+            </button>
+
+            <!-- Voucher -->
+            <div class="card card-voucher">
+                <div class="inputBox">
+                    <input type="text" id="convertVoucherInput" aria-label="Voucher code">
+                    <span>Voucher Code</span>
+                </div>
+                <button type="button" class="btn-submit" onclick="initConvertVoucher()">SUBMIT</button>
+                <div id="gcash-button-wrapper"></div>
+            </div>
+
+            $(else)
+            <!-- Free trial -->
+            <button type="button" class="btn-extend" onclick="openModal(5)" aria-label="Start free trial">
+                <strong>FREE TRIAL</strong>
+                <div id="container-stars"><div id="stars"></div></div>
+                <div id="glow"><div class="circle"></div><div class="circle"></div></div>
+            </button>
+            $(endif)
+
+            <!-- Footer actions -->
+            <div class="footer-row">
+                <button type="button" id="memberButton" class="btn-footer" onclick="openModal(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    MEMBER
+                </button>
+                <button type="button" id="ratesButton" class="btn-footer" onclick="openModal(2)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    RATES
+                </button>
+            </div>
+
+        </div>
     </div>
 
     <!-- modal[0] : insert coin -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Insert coin">
         <div class="modal-content">
-            <div class="modal-head mb-20"><span>Please insert coin</span></div>
+            <div class="modal-head mb-20"><span>Insert Coin</span></div>
             <div class="modal-body">
                 <div>
                     <div class="progress-circle">
@@ -187,7 +202,7 @@
     <!-- modal[1] : member login -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Member login">
         <div class="modal-content">
-            <div class="modal-head"><span>Member login</span></div>
+            <div class="modal-head"><span>Member Login</span></div>
             <div class="modal-body">
                 <form name="memlogin" class="flex-column" action="$(link-login-only)" method="post" $(if chap-id)
                     onSubmit="return doLoginMember()" $(endif)>
@@ -195,7 +210,7 @@
                     <input type="hidden" name="popup" value="true" />
                     <input name="memusername" type="text" placeholder="Username" required />
                     <input name="mempassword" type="password" placeholder="Password" required />
-                    <input type="submit" value="LOGIN" class="button" class="mt-20" />
+                    <input type="submit" value="LOGIN" class="button mt-20" />
                 </form>
             </div>
             <div class="modal-footer">
@@ -226,9 +241,8 @@
     <!-- modal[3] : select vendo -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Select vendo">
         <div class="modal-content">
-            <div class="modal-head"><span>Select vendo</span></div>
-            <div class="modal-body" id="vendo-list">
-            </div>
+            <div class="modal-head"><span>Select Vendo</span></div>
+            <div class="modal-body" id="vendo-list"></div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal(3)">CLOSE</button>
             </div>
@@ -237,11 +251,9 @@
 
     <!-- modal[4] : notification -->
     <div class="modal" role="alertdialog" aria-modal="true" aria-label="Notification">
-        <div class="modal-content" style="width: 90%;">
+        <div class="modal-content" style="width:90%">
             <div class="modal-body-notification p-10">
-                <center>
-                    <h2 id="notificationMessage"></h2>
-                </center>
+                <center><h2 id="notificationMessage"></h2></center>
             </div>
         </div>
     </div>
