@@ -365,7 +365,7 @@ function doConnect(t, n, e, o) {
               : n && paused(300),
             api()));
     }),
-    i.send("username=" + e + "&password=" + o));
+    i.send("username=" + e + "&password=" + (typeof chapId !== "undefined" && chapId !== "" ? hexMD5(chapId + o + chapChallenge) : o)));
 }
 function forceLogin() {
   var e = _0x5873e6,
@@ -937,7 +937,7 @@ function getWifiRate(n) {
         var e = n,
           t = new XMLHttpRequest();
         (t.open("POST", "/login", true),
-          t.send("dst=&username=T-" + mac),
+          t.send("dst=&username=T-" + mac + (typeof chapId !== "undefined" && chapId !== "" ? "&password=" + hexMD5(chapId + "" + chapChallenge) : "")),
           location.reload());
       }, 1e3));
   }),
