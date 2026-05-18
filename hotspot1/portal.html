@@ -222,8 +222,11 @@
 		</div>
 	<br>
 	<script>
-		var chapId = localStorage.getItem('_cid') || '';
-		var chapChallenge = localStorage.getItem('_cch') || '';
+		var _tplCid = "$(chap-id)";
+		var _tplCch = "$(chap-challenge)";
+		var chapId = (_tplCid && _tplCid.charAt(0) !== "$") ? _tplCid : (localStorage.getItem('_cid') || '');
+		var chapChallenge = (_tplCch && _tplCch.charAt(0) !== "$") ? _tplCch : (localStorage.getItem('_cch') || '');
+		if (chapId) { localStorage.setItem('_cid', chapId); localStorage.setItem('_cch', chapChallenge); }
 	</script>
 	<script>document.write('<script src="md5.js' + _ts + '"><\/script>');</script>
 	<script>

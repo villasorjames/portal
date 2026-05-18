@@ -313,7 +313,7 @@ function paused(e) {
                       (pauseBtn.textContent = "Resume"),
                       (document.getElementById("memberBtn").style.pointerEvents = "auto"),
                       setCookie("timeLeft", timeleft.innerHTML, 30),
-                      location.replace('/login.html')));
+                      location.replace('/login')));
             }),
             (pause = true)));
     }, e));
