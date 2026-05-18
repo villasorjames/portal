@@ -370,11 +370,13 @@ function doConnect(t, n, e, o) {
 function forceLogin() {
   var e = _0x5873e6,
     t = document.querySelector("[data-dialog]");
-  ((t.querySelector(".progress-bar").style.width = "100%"),
+  (insertingCoin = false),
+    (insertCoinDone = false),
+    (t.querySelector(".progress-bar").style.width = "100%"),
     (t.querySelector(".header").textContent = "Done"),
     setTimeout(function () {
       (closeModal(t), api());
-    }, 250));
+    }, 250);
 }
 function insertBtnManual(e) {
   var t = _0x5873e6,
