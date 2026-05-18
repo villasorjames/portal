@@ -127,12 +127,14 @@
             </div>
 
             <!-- Insert coin -->
-            <button type="button" class="btn-extend" onclick="openModal(0)" id="insert-coin-button"
-                user-type="new" aria-label="Insert coin to purchase access">
-                <strong>INSERT COIN</strong>
-                <div id="container-stars"><div id="stars"></div></div>
-                <div id="glow"><div class="circle"></div><div class="circle"></div></div>
-            </button>
+            <div class="action-row">
+                <button type="button" class="btn-extend" onclick="openModal(0)" id="insert-coin-button"
+                    user-type="new" aria-label="Insert coin to purchase access">
+                    <strong>INSERT COIN</strong>
+                    <div id="container-stars"><div id="stars"></div></div>
+                    <div id="glow"><div class="circle"></div><div class="circle"></div></div>
+                </button>
+            </div>
 
             <!-- Voucher -->
             <div class="card card-voucher">
@@ -146,11 +148,13 @@
 
             $(else)
             <!-- Free trial -->
-            <button type="button" class="btn-extend" onclick="openModal(5)" aria-label="Start free trial">
-                <strong>FREE TRIAL</strong>
-                <div id="container-stars"><div id="stars"></div></div>
-                <div id="glow"><div class="circle"></div><div class="circle"></div></div>
-            </button>
+            <div class="action-row">
+                <button type="button" class="btn-extend" onclick="openModal(5)" aria-label="Start free trial">
+                    <strong>FREE TRIAL</strong>
+                    <div id="container-stars"><div id="stars"></div></div>
+                    <div id="glow"><div class="circle"></div><div class="circle"></div></div>
+                </button>
+            </div>
             $(endif)
 
             <!-- Footer actions -->
