@@ -46,7 +46,7 @@ input,label{vertical-align:middle;background:none;line-height:1}
 .timer-grid{display:flex;align-items:center;justify-content:center;gap:4px}
 .timer-block{display:flex;align-items:baseline;gap:2px}
 .time{font-size:52px;font-weight:800;color:#c4b5fd;line-height:1;letter-spacing:-2px}
-.t-suffix{font-size:28px;font-weight:700;color:#7c3aed;letter-spacing:1px}
+.t-suffix{font-size:38px;font-weight:700;color:#7c3aed;letter-spacing:1px}
 .t-sep{font-size:46px;font-weight:800;color:#7c3aed;line-height:1}
 
 /* Notice card */
