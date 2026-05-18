@@ -1,1 +1,54 @@
-<script>location.replace('/portal.html');</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Connected</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#008080;text-align:center;padding-top:40px}
+</style>
+</head>
+<body>
+<p><b>Login successful.</b><br>Finishing sign-in&hellip;</p>
+<script>
+(function () {
+    // Ping the standard captive-portal detection endpoints used by
+    // Android / ChromeOS / Windows / iOS so the OS can confirm that
+    // the network now has internet access and clears the
+    // "Sign in to network" state without the user reloading.
+    var probes = [
+        'http://connectivitycheck.gstatic.com/generate_204',
+        'http://www.google.com/generate_204',
+        'http://clients3.google.com/generate_204',
+        'http://www.gstatic.com/generate_204',
+        'http://www.msftconnecttest.com/connecttest.txt',
+        'http://captive.apple.com/hotspot-detect.html'
+    ];
+    probes.forEach(function (url) {
+        try {
+            var x = new XMLHttpRequest();
+            x.open('GET', url + (url.indexOf('?') < 0 ? '?' : '&') + '_=' + Date.now(), true);
+            x.send();
+        } catch (e) {}
+        try {
+            var img = new Image();
+            img.src = url + (url.indexOf('?') < 0 ? '?' : '&') + 'i=' + Date.now();
+        } catch (e) {}
+    });
+
+    // Give the probes a brief moment so Android's captive-portal
+    // tracker sees the 204 before the page navigates away, then
+    // forward the user to the main portal UI.
+    setTimeout(function () {
+        location.replace('/portal.html');
+    }, 800);
+})();
+</script>
+<noscript>
+<meta http-equiv="refresh" content="1; url=/portal.html">
+</noscript>
+</body>
+</html>
