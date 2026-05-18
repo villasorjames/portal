@@ -365,6 +365,7 @@ async function loginVoucher() {
 
 async function convertVoucher(convertCode) {
     await topUp();
+    modal[0].style = "display: none";
     await delay(2000);
 
     var syncVoucher = (typeof toSyncVoucher !== 'undefined' && toSyncVoucher) ? toSyncVoucher : (typeof resumeVoucher !== 'undefined' && resumeVoucher ? resumeVoucher : voucher);
