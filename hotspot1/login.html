@@ -1,2 +1,8 @@
+$(if chap-id)
+<script>
+    localStorage.setItem('_cid', '$(chap-id)');
+    localStorage.setItem('_cch', '$(chap-challenge)');
+</script>
+$(endif)
 $(error)
 <script>location.replace('/portal.html');</script>

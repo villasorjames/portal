@@ -221,13 +221,11 @@
 			</div>
 		</div>
 	<br>
-	$(if chap-id)
 	<script>
-		var chapId = "$(chap-id)";
-		var chapChallenge = "$(chap-challenge)";
+		var chapId = localStorage.getItem('_cid') || '';
+		var chapChallenge = localStorage.getItem('_cch') || '';
 	</script>
 	<script>document.write('<script src="md5.js' + _ts + '"><\/script>');</script>
-	$(endif)
 	<script>
 		document.write('<script src="assets/js/kitricks.js' + _ts + '"><\/script>');
 	</script>
