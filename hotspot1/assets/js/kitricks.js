@@ -312,7 +312,8 @@ function paused(e) {
                       pauseBtn.classList.remove("is-loading"),
                       (pauseBtn.textContent = "Resume"),
                       (document.getElementById("memberBtn").style.pointerEvents = "auto"),
-                      setCookie("timeLeft", timeleft.innerHTML, 30)));
+                      setCookie("timeLeft", timeleft.innerHTML, 30),
+                      location.reload()));
             }),
             (pause = true)));
     }, e));
