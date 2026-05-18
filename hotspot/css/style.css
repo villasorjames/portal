@@ -45,9 +45,9 @@ input,label{vertical-align:middle;background:none;line-height:1}
 .session-status.yellow .session-label::after{content:"Paused"}
 .timer-grid{display:flex;align-items:center;justify-content:center;gap:4px}
 .timer-block{display:flex;align-items:baseline;gap:2px}
-.time{font-size:38px;font-weight:800;color:#c4b5fd;line-height:1;letter-spacing:-1px}
-.t-suffix{font-size:16px;font-weight:700;color:#7c3aed;letter-spacing:1px}
-.t-sep{font-size:34px;font-weight:800;color:#7c3aed;line-height:1}
+.time{font-size:52px;font-weight:800;color:#c4b5fd;line-height:1;letter-spacing:-2px}
+.t-suffix{font-size:20px;font-weight:700;color:#7c3aed;letter-spacing:1px}
+.t-sep{font-size:46px;font-weight:800;color:#7c3aed;line-height:1}
 
 /* Notice card */
 .card-notice{text-align:center;padding:18px}
@@ -170,9 +170,9 @@ tr:nth-child(even) td{background:rgba(109,40,217,0.05)}
 @media(max-width:520px){
 .card{padding:16px}
 .card-header{padding:18px 14px}
-.time{font-size:26px}
-.t-suffix{font-size:13px}
-.t-sep{font-size:24px}
+.time{font-size:38px}
+.t-suffix{font-size:16px}
+.t-sep{font-size:34px}
 .modal-content{width:94%;max-width:94%;padding:16px;max-height:92%}
 .modal-body{padding:14px 0}
 .modal-head{font-size:15px}
@@ -185,9 +185,9 @@ strong{font-size:12px;letter-spacing:3px}
 .modal-footer button{padding:10px 8px;font-size:11px}
 }
 @media(max-width:360px){
-.time{font-size:21px}
-.t-suffix{font-size:11px}
-.t-sep{font-size:20px}
+.time{font-size:30px}
+.t-suffix{font-size:13px}
+.t-sep{font-size:28px}
 strong{letter-spacing:2px}
 .modal-content{width:96%;max-width:96%;padding:14px}
 .modal-head{font-size:14px}
