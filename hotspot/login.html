@@ -121,13 +121,12 @@
             </div>
 
             $(if trial == "no")
-            <!-- Resume button (hidden by default, shown by JS) -->
-            <div id="resumeWrapper" style="display:none">
-                <button type="button" id="resumeButton" onclick="doResume()">RESUME</button>
-            </div>
-
-            <!-- Insert coin -->
+            <!-- Action row: Resume (hidden until paused) + Insert Coin -->
             <div class="action-row">
+                <button type="button" id="resumeWrapper" style="display:none" class="btn-pause" onclick="doResume()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    RESUME
+                </button>
                 <button type="button" class="btn-extend" onclick="openModal(0)" id="insert-coin-button"
                     user-type="new" aria-label="Insert coin to purchase access">
                     <strong>INSERT COIN</strong>
