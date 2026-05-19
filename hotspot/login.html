@@ -106,13 +106,15 @@
                         </div>
 
                         <!-- Device toggle -->
-                        <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false" style="width:100%">
-                            <span class="btn-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                                Device
-                            </span>
-                            <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-                        </button>
+                        <div class="dropdown-row" style="grid-template-columns: 1fr">
+                            <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false">
+                                <span class="btn-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                    Device
+                                </span>
+                                <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+                            </button>
+                        </div>
 
                         <div class="dropdown-content" id="deviceInfo">
                             <div class="info-row">
