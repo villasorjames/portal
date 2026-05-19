@@ -41,9 +41,9 @@ a{color:#7c3aed;text-decoration:underline}
 .session-status.yellow .session-label::after{content:"Paused"}
 .timer-grid{display:flex;align-items:baseline;justify-content:center;gap:6px;flex-wrap:nowrap}
 .timer-block{display:flex;align-items:baseline;gap:2px}
-.time{font-size:36px;font-weight:800;color:#111827;line-height:1;letter-spacing:-1px}
-.t-suffix{font-size:22px;font-weight:700;color:#7c3aed;letter-spacing:0}
-.t-sep{font-size:30px;font-weight:800;color:#9ca3af;line-height:1}
+.time{font-size:52px;font-weight:800;color:#111827;line-height:1;letter-spacing:-2px}
+.t-suffix{font-size:38px;font-weight:700;color:#7c3aed;letter-spacing:0}
+.t-sep{font-size:46px;font-weight:800;color:#9ca3af;line-height:1}
 
 /* Vendo node status (small badge) */
 .node-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#6b7280;letter-spacing:1px;text-transform:uppercase}
@@ -179,9 +179,9 @@ tr:nth-child(even) td{background:#fafafa}
 .brand-title{font-size:22px}
 .illustration{max-width:300px}
 .info-line{font-size:12px;padding:8px 4px}
-.time{font-size:28px}
-.t-suffix{font-size:18px}
-.t-sep{font-size:24px}
+.time{font-size:38px}
+.t-suffix{font-size:28px}
+.t-sep{font-size:34px}
 .btn-primary,.btn-outline{height:50px;font-size:15px}
 .grid-btn{font-size:12px;padding:12px 8px}
 .modal-content{width:94%;max-width:94%;padding:16px;max-height:92%}
@@ -195,9 +195,9 @@ tr:nth-child(even) td{background:#fafafa}
 .brand-title{font-size:20px}
 .illustration{max-width:260px}
 .info-line{font-size:11px;flex-direction:row}
-.time{font-size:24px}
-.t-suffix{font-size:15px}
-.t-sep{font-size:20px}
+.time{font-size:30px}
+.t-suffix{font-size:22px}
+.t-sep{font-size:26px}
 .btn-primary,.btn-outline{height:48px;font-size:14px}
 .modal-content{width:96%;max-width:96%;padding:14px}
 .modal-head{font-size:14px}
