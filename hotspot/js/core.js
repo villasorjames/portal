@@ -450,11 +450,20 @@ function initConvertVoucher() {
 
 function showNotification(message) {
     document.getElementById("notificationMessage").innerHTML = "" + message;
+    var fill = document.getElementById("notifProgress");
+    if (fill) { fill.style.transition = 'none'; fill.style.width = '1%'; }
     modalShow(modal[4]);
 }
 
 function closeNotification(ms) {
-    setTimeout(() => {
+    var fill = document.getElementById("notifProgress");
+    if (fill && ms) {
+        setTimeout(function () {
+            fill.style.transition = 'width ' + ms + 'ms linear';
+            fill.style.width = '100%';
+        }, 30);
+    }
+    setTimeout(function () {
         modalHide(modal[4]);
     }, ms);
 }
