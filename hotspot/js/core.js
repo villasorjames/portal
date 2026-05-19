@@ -35,26 +35,27 @@ function toggleDropdown(id, btn) {
     var el = document.getElementById(id);
     if (!el) return;
     var open = el.classList.toggle("open");
-    if (btn) {
-        btn.setAttribute("aria-expanded", open ? "true" : "false");
-        var caret = btn.querySelector(".dropdown-caret");
-        if (caret) caret.textContent = open ? "▲" : "▼";
-    }
+    if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
 }
+
+var _svgIco = 'xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"';
+var _stateIcons = {
+    disconnected: '<svg ' + _svgIco + '><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    connected:    '<svg ' + _svgIco + '><polyline points="20 6 9 17 4 12"/></svg>',
+    paused:       '<svg ' + _svgIco + '><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>'
+};
+var _stateLabels = { disconnected: "Disconnected", connected: "Connected", paused: "Time Paused" };
 
 function setSessionState(state) {
     var badge = document.getElementById("sessionStatus");
     if (!badge) return;
-    var allowed = ["disconnected", "connected", "paused"];
+    if (!_stateLabels[state]) state = "disconnected";
     badge.classList.remove("disconnected", "connected", "paused");
-    if (allowed.indexOf(state) === -1) state = "disconnected";
     badge.classList.add("status-badge", state);
     var icon = badge.querySelector(".status-icon");
     var text = badge.querySelector(".status-text");
-    var labels = { disconnected: "Disconnected", connected: "Connected", paused: "Time Paused" };
-    var icons = { disconnected: "✕", connected: "✔", paused: "⏸" };
-    if (text) text.textContent = labels[state];
-    if (icon) icon.innerHTML = icons[state];
+    if (text) text.textContent = _stateLabels[state];
+    if (icon) icon.innerHTML = _stateIcons[state];
     var card = document.getElementById("timeCard");
     if (card) {
         card.classList.remove("connected", "paused");

@@ -74,7 +74,7 @@
                         <!-- Status badge -->
                         <div class="status-container">
                             <div id="sessionStatus" class="status-badge disconnected">
-                                <span class="status-icon">&#x2715;</span>
+                                <span class="status-icon"><svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
                                 <span class="status-text">Disconnected</span>
                                 <span class="session-dot" style="display:none"></span>
                                 <span class="session-label" style="display:none"></span>
@@ -83,45 +83,43 @@
 
                         <!-- Time Remaining -->
                         <div class="time-card" id="timeCard">
-                            <div class="time-label">&#x23F1; Time Remaining</div>
+                            <div class="time-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                Time Remaining
+                            </div>
                             <div class="time-value" id="remaining-time">--</div>
-                            <!-- hidden timer parts for core.js -->
                             <div class="timer-hidden">
-                                <span id="days">00</span>
-                                <span class="semicolon">:</span>
-                                <span id="hours">00</span>
-                                <span class="semicolon">:</span>
-                                <span id="minutes">00</span>
-                                <span class="semicolon">:</span>
+                                <span id="days">00</span><span class="semicolon">:</span>
+                                <span id="hours">00</span><span class="semicolon">:</span>
+                                <span id="minutes">00</span><span class="semicolon">:</span>
                                 <span id="seconds">00</span>
                             </div>
                         </div>
 
-                        <!-- Info cards -->
-                        <div class="info-grid">
-                            <div class="info-card credits">
-                                <div class="info-card-label">Credits</div>
-                                <div class="info-card-value">&#8369;0</div>
+                        <!-- Expiry card -->
+                        <div class="expiry-card">
+                            <div class="expiry-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                Expiry
                             </div>
-                            <div class="info-card cpoints">
-                                <div class="info-card-label">CPoints</div>
-                                <div class="info-card-value">0</div>
-                            </div>
-                            <div class="info-card expiry">
-                                <div class="info-card-label">Expiry</div>
-                                <div class="info-card-value" id="expiry">--</div>
-                            </div>
+                            <div class="expiry-value" id="expiry">--</div>
                         </div>
 
                         <!-- Device / Data toggles -->
                         <div class="dropdown-row">
                             <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false">
-                                <span>&#x2139; Device</span>
-                                <span class="dropdown-caret">&#x25BC;</span>
+                                <span class="btn-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                    Device
+                                </span>
+                                <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
                             </button>
                             <button type="button" class="dropdown-btn" onclick="toggleDropdown('dataInfo', this)" aria-expanded="false">
-                                <span>&#x2261; Data</span>
-                                <span class="dropdown-caret">&#x25BC;</span>
+                                <span class="btn-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                                    Data
+                                </span>
+                                <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
                             </button>
                         </div>
 
@@ -154,34 +152,39 @@
                         $(if trial == "no")
                         <div id="resumeWrapper" style="display:none; margin-bottom:0.6rem">
                             <button type="button" id="resumeButton" class="btn btn-warning" onclick="doResume()">
-                                <span>RESUME</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                Resume
                             </button>
                         </div>
 
                         <!-- Insert Coin (primary) -->
                         <button type="button" class="btn btn-success" id="insert-coin-button" user-type="new" onclick="openModal(0)" aria-label="Insert coin to purchase access">
-                            <span>&#x1F4B0;</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                             <span>Insert Coin</span>
                         </button>
 
                         <!-- Action grid: only hotspot-supported buttons -->
                         <div class="action-grid">
                             <button type="button" class="btn btn-primary" id="ratesButton" onclick="openModal(2)">
-                                <span>WiFi Rates</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                                WiFi Rates
                             </button>
                             <button type="button" class="btn btn-primary" id="voucherButton" onclick="openModal(6)">
-                                <span>Vouchers</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg>
+                                Vouchers
                             </button>
                         </div>
                         <div class="action-grid">
                             <button type="button" class="btn btn-primary" id="memberButton" onclick="openModal(1)">
-                                <span>Member</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                Member
                             </button>
                             <div id="gcash-button-wrapper"></div>
                         </div>
                         $(else)
                         <button type="button" class="btn btn-success" onclick="openModal(5)" aria-label="Start free trial">
-                            <span>Start Free Trial</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                            Start Free Trial
                         </button>
                         $(endif)
 
