@@ -37,20 +37,23 @@ function pause() {
     window.location.href = '/logout?erase-cookie=on';
 }
 
-async function fetchUserTextFile() {
+function fetchUserTextFile() {
     var mac = userMac.replace(/:/g, '');
     var url = '/data/' + mac + '.txt?q=' + new Date().getTime();
-    var response = await fetch(url);
-    var text = await response.text();
-    var voucher = text.split('#')[0];
-    var expiryDate = text.split('#')[1];
-    if (response.ok) {
-        var el = document.getElementById('expiry');
-        if (el) el.textContent = formatExpiry(expiryDate);
-    } else {
-        var el = document.getElementById('expiry');
-        if (el) el.textContent = 'N/A';
-    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            var el = document.getElementById('expiry');
+            if (xhr.status === 200) {
+                var expiryDate = xhr.responseText.split('#')[1];
+                if (el) el.textContent = formatExpiry(expiryDate);
+            } else {
+                if (el) el.textContent = 'N/A';
+            }
+        }
+    };
+    xhr.send();
 }
 
 setTimeout(function () { fetchUserTextFile(); }, 1500);

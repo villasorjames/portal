@@ -29,13 +29,19 @@ function closeModal(index) {
     modalHide(modal[index]);
 }
 
-fetch("/setting.json")
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-        if (data.setting.hotspot_name) {
-            document.getElementById("hotspotName").textContent = data.setting.hotspot_name;
-        }
-    });
+var _xhrSettings = new XMLHttpRequest();
+_xhrSettings.open('GET', '/setting.json', true);
+_xhrSettings.onreadystatechange = function () {
+    if (_xhrSettings.readyState === 4 && _xhrSettings.status === 200) {
+        try {
+            var data = JSON.parse(_xhrSettings.responseText);
+            if (data.setting && data.setting.hotspot_name) {
+                document.getElementById("hotspotName").textContent = data.setting.hotspot_name;
+            }
+        } catch (e) {}
+    }
+};
+_xhrSettings.send();
 
 if (potalError != '') {
     showNotification(potalError);
@@ -53,36 +59,39 @@ function doResume() {
     return false;
 }
 
-async function fetchUserTextFile(skipAutoLogin) {
+function fetchUserTextFile(skipAutoLogin) {
     var mac = userMac.replace(/:/g, '');
     var url = '/data/' + mac + '.txt?q=' + new Date().getTime();
-    var response = await fetch(url);
-    var text = await response.text();
-    var voucher = text.split('#')[0];
-    if (response.ok) {
-        if (isPaused === null) {
-            resumeVoucher = voucher;
-            if (!skipAutoLogin) {
-                showNotification('Syncing mac address');
-                document.sendin.username.value = voucher;
-                setTimeout(function () {
-                    doLogin();
-                }, 3000);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var voucher = xhr.responseText.split('#')[0];
+            if (isPaused === null) {
+                resumeVoucher = voucher;
+                if (!skipAutoLogin) {
+                    showNotification('Syncing mac address');
+                    document.sendin.username.value = voucher;
+                    setTimeout(function () {
+                        doLogin();
+                    }, 3000);
+                }
+            } else {
+                sessionTimeConvert(localStorage.getItem('remainingTime'));
+                resumeVoucher = voucher;
+                var wrapper = document.getElementById('resumeWrapper');
+                if (wrapper) wrapper.style.display = 'block';
+                var extendBtn = document.getElementById('insert-coin-button');
+                if (extendBtn) {
+                    extendBtn.setAttribute('user-type', 'extend');
+                    var label = extendBtn.querySelector('span:last-child');
+                    if (label) label.textContent = 'Extend';
+                }
+                setSessionState('paused');
             }
-        } else {
-            sessionTimeConvert(localStorage.getItem('remainingTime'));
-            resumeVoucher = voucher;
-            var wrapper = document.getElementById('resumeWrapper');
-            if (wrapper) wrapper.style.display = 'block';
-            var extendBtn = document.getElementById('insert-coin-button');
-            if (extendBtn) {
-                extendBtn.setAttribute('user-type', 'extend');
-                var label = extendBtn.querySelector('span:last-child');
-                if (label) label.textContent = 'Extend';
-            }
-            setSessionState('paused');
         }
-    }
+    };
+    xhr.send();
 }
 
 if (potalError != 'invalid username or password') {
@@ -91,18 +100,21 @@ if (potalError != 'invalid username or password') {
     fetchUserTextFile(true);
 }
 
-async function fetchExpiry() {
+function fetchExpiry() {
     var mac = userMac.replace(/:/g, '');
     var url = '/data/' + mac + '.txt?q=' + new Date().getTime();
-    try {
-        var response = await fetch(url);
-        var text = await response.text();
-        var expiryDate = text.split('#')[1];
-        if (response.ok && expiryDate) {
-            var el = document.getElementById('expiry');
-            if (el) el.textContent = formatExpiry(expiryDate);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var expiryDate = xhr.responseText.split('#')[1];
+            if (expiryDate) {
+                var el = document.getElementById('expiry');
+                if (el) el.textContent = formatExpiry(expiryDate);
+            }
         }
-    } catch (e) {}
+    };
+    xhr.send();
 }
 
 fetchExpiry();
