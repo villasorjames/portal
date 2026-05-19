@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <script>if(window.history&&window.history.replaceState){window.history.replaceState(null,document.title,window.location.href)}</script>
-    <meta name="theme-color" content="#0c0a14" />
+    <meta name="theme-color" content="#ffffff" />
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="-1">
     <title>Internet Hotspot - Status</title>
@@ -43,44 +43,43 @@
     <div class="page">
         <div class="page-inner">
 
-            <!-- Header -->
-            <div class="card card-header">
-                <div class="wifi-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
-                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
-                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
-                        <circle cx="12" cy="20" r="1" fill="currentColor"/>
-                    </svg>
-                </div>
-                <h1 id="hotspotName">HOTSPOT</h1>
-                <div id="vendoName"></div>
-                <div class="meta-row">
-                    <div class="meta-item">
-                        <span class="meta-label">IP</span>
-                        <span class="meta-val">$(ip)</span>
-                    </div>
-                    <div class="meta-sep"></div>
-                    <div class="meta-item">
-                        <span class="meta-label">MAC</span>
-                        <span class="meta-val">$(mac)</span>
-                    </div>
-                    <div class="meta-sep"></div>
-                    <div class="meta-item">
-                        <span class="meta-label">EXP</span>
-                        <span class="meta-val" id="expiry">--</span>
-                    </div>
-                    <div class="meta-sep"></div>
-                    <div class="meta-item" id="vendoStatus">
-                        <span class="meta-label">NODE</span>
-                        <span class="vendo-dot"></span>
-                    </div>
-                </div>
+            <!-- Title -->
+            <h1 class="brand-title" id="hotspotName">James Tech Hotspot</h1>
+            <div class="brand-vendo" id="vendoName"></div>
+
+            <!-- Illustration -->
+            <div class="illustration" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" fill="none">
+                    <defs>
+                        <linearGradient id="wifiGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#a5f3fc"/>
+                            <stop offset="100%" stop-color="#67e8f9"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M170 200 A 140 140 0 0 1 30 60 L 60 60 A 110 110 0 0 0 170 170 A 110 110 0 0 0 280 60 L 310 60 A 140 140 0 0 1 170 200 Z" fill="url(#wifiGrad)" opacity=".6"/>
+                    <path d="M170 200 A 100 100 0 0 1 70 100 L 100 100 A 70 70 0 0 0 170 170 A 70 70 0 0 0 240 100 L 270 100 A 100 100 0 0 1 170 200 Z" fill="url(#wifiGrad)" opacity=".8"/>
+                    <path d="M170 200 A 60 60 0 0 1 110 140 L 140 140 A 30 30 0 0 0 170 170 A 30 30 0 0 0 200 140 L 230 140 A 60 60 0 0 1 170 200 Z" fill="#06b6d4"/>
+                    <rect x="155" y="100" width="30" height="50" rx="4" fill="#1f2937"/>
+                    <rect x="158" y="105" width="24" height="38" rx="2" fill="#06b6d4" opacity=".7"/>
+                    <circle cx="170" cy="147" r="1.5" fill="#9ca3af"/>
+                </svg>
+            </div>
+
+            <!-- IP / MAC info -->
+            <div class="info-line">
+                <div><span class="ilabel">IP:</span><span class="ival">$(ip)</span></div>
+                <div><span class="ilabel">MAC:</span><span class="ival">$(mac)</span></div>
+            </div>
+
+            <!-- Node status -->
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px;margin-bottom:4px">
+                <div class="node-badge" id="vendoStatus">NODE <span class="vendo-dot"></span></div>
+                <div class="node-badge">EXP: <span id="expiry" style="color:#374151;font-weight:600">--</span></div>
             </div>
 
             $(if session-time-left)
             <!-- Session countdown -->
-            <div class="card card-timer">
+            <div class="timer-card">
                 <div class="timer-status-row">
                     <span class="session-status" id="sessionStatus" style="position:relative">
                         <span class="session-dot" id="sessionDot"></span>
@@ -99,54 +98,56 @@
             </div>
 
             $(if login-by == 'trial')
-            <div class="card card-notice"><h1>FREE TRIAL USER</h1></div>
+            <div class="member-info"><h1>FREE TRIAL USER</h1></div>
             $(endif)
 
             $(if login-by != 'trial')
-            <!-- Action buttons -->
-            <div class="action-row">
-                <button type="button" id="pauseButton" class="btn-pause" onclick="pause()">
+            <!-- Primary action buttons (stacked) -->
+            <div class="actions-stack">
+                <button type="button" id="pauseButton" class="btn-outline btn-pause" onclick="pause()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                     PAUSE
                 </button>
-                <button type="button" class="btn-extend" id="insert-coin-button" user-type="extend" onclick="openModal(0)" aria-label="Extend session">
+                <button type="button" class="btn-primary" id="insert-coin-button" user-type="extend" onclick="openModal(0)" aria-label="Extend session">
                     <strong>EXTEND</strong>
                     <div id="container-stars"><div id="stars"></div></div>
                     <div id="glow"><div class="circle"></div><div class="circle"></div></div>
                 </button>
+                <div id="gcash-button-wrapper"></div>
             </div>
 
-            <!-- Voucher -->
-            <div class="card card-voucher">
+            <!-- Voucher input -->
+            <div class="voucher-wrap">
                 <div class="inputBox">
                     <input type="text" id="convertVoucherInput" aria-label="Voucher code">
                     <span>Voucher Code</span>
                 </div>
-                <button type="button" class="btn-submit" onclick="initConvertVoucher()">SUBMIT</button>
-                <div id="gcash-button-wrapper"></div>
+                <button type="button" class="btn-outline" style="height:46px;font-size:14px" onclick="initConvertVoucher()">
+                    <strong>SUBMIT VOUCHER</strong>
+                </button>
             </div>
             $(endif)
 
             $(else)
             <!-- Member unlimited -->
-            <div class="card card-member-info">
+            <div class="member-info">
                 <h1>$(username)</h1>
                 <p class="member-badge">MEMBER — UNLIMITED</p>
             </div>
-            <button type="button" id="memberLogoutButton" class="btn-logout" onclick="logout()">LOGOUT</button>
+            <button type="button" id="memberLogoutButton" class="btn-outline btn-logout" onclick="logout()">LOGOUT</button>
             $(endif)
 
             $(if session-time-left)
             $(if login-by != 'trial')
-            <!-- Footer actions -->
-            <div class="footer-row">
-                <button type="button" id="memberButton" class="btn-footer" onclick="openModal(1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    MEMBER
+            <!-- Bottom action grid -->
+            <div class="bottom-grid">
+                <button type="button" id="ratesButton" class="grid-btn" onclick="openModal(2)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+                    Wi-Fi Rates
                 </button>
-                <button type="button" id="ratesButton" class="btn-footer" onclick="openModal(2)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    RATES
+                <button type="button" id="memberButton" class="grid-btn alt" onclick="openModal(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Member
                 </button>
             </div>
             $(endif)
