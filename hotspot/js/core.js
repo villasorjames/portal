@@ -333,7 +333,7 @@ async function checkCoin() {
         } else if (data.errorCode === "coin.is.reading") {
             showToast("Processing coin", "warning");
         } else if (data.errorCode === "coin.not.inserted") {
-            updateProgress(progressPercent);
+            updateProgress(100 - Math.min(100, progressPercent));
             if (remainSeconds > 0) {
                 if (coin > 0) {
                     document.getElementById("userCoin").textContent = coin;
