@@ -1,0 +1,45 @@
+{
+    "en": {
+      "title": "Sign In To Admin",
+      "subtitle": "LPB Piso Wifi",
+      "username": {
+        "label": "Username",
+        "placeholder": "Username"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "••••••••"
+      },
+      "loginButton": "Login Now",
+      "forgotPassword": "Forgot password?",
+      "error": {
+        "title": "Login Error",
+        "messages": {
+          "required": "Username and password are required.",
+          "invalid": "Invalid username or password. Please try again."
+        }
+      }
+    },
+    "id": {
+      "title": "Masuk ke Admin",
+      "subtitle": "LPB Piso Wifi",
+      "username": {
+        "label": "Nama Pengguna",
+        "placeholder": "Nama Pengguna"
+      },
+      "password": {
+        "label": "Kata Sandi",
+        "placeholder": "••••••••"
+      },
+      "loginButton": "Masuk Sekarang",
+      "forgotPassword": "Lupa kata sandi?",
+      "error": {
+        "title": "Kesalahan Login",
+        "messages": {
+          "required": "Nama pengguna dan kata sandi harus diisi.",
+          "invalid": "Nama pengguna atau kata sandi salah. Silakan coba lagi."
+        }
+      }
+    }
+  }
+  
