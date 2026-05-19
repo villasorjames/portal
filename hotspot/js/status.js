@@ -46,7 +46,7 @@ async function fetchUserTextFile() {
     var expiryDate = text.split('#')[1];
     if (response.ok) {
         var el = document.getElementById('expiry');
-        if (el) el.textContent = expiryDate;
+        if (el) el.textContent = formatExpiry(expiryDate);
     } else {
         var el = document.getElementById('expiry');
         if (el) el.textContent = 'N/A';

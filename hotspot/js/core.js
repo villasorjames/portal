@@ -533,6 +533,18 @@ function adjustToasts() {
     });
 }
 
+function formatExpiry(val) {
+    if (!val) return '--';
+    val = val.trim();
+    var d = new Date(val.replace(' ', 'T'));
+    if (isNaN(d.getTime())) return val;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var h = d.getHours(), m = d.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return months[d.getMonth()] + '/' + d.getDate() + ' ' + h + ':' + (m < 10 ? '0' + m : m) + ' ' + ampm;
+}
+
 function timeConvert(seconds) {
     seconds = Number(seconds);
     var daySecs = 86400;

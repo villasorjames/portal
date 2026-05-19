@@ -100,7 +100,7 @@ async function fetchExpiry() {
         var expiryDate = text.split('#')[1];
         if (response.ok && expiryDate) {
             var el = document.getElementById('expiry');
-            if (el) el.textContent = expiryDate;
+            if (el) el.textContent = formatExpiry(expiryDate);
         }
     } catch (e) {}
 }
