@@ -501,21 +501,6 @@ a:hover { text-decoration: underline; }
     color: #1f2937;
 }
 
-.notif-progress-track {
-    width: 100%;
-    height: 5px;
-    background: #e5e7eb;
-    border-radius: 999px;
-    overflow: hidden;
-    margin-top: 1rem;
-}
-
-.notif-progress-fill {
-    height: 100%;
-    width: 1%;
-    background: #3b82f6;
-    border-radius: 999px;
-}
 
 .modal-footer {
     padding: 0.75rem 1.25rem 1.25rem;
@@ -594,37 +579,30 @@ a:hover { text-decoration: underline; }
 .vendo-list-items:hover { background: #eff6ff; border-color: #3b82f6; }
 
 /* Progress circle (coin insertion) */
-.progress-bar-wrap {
-    margin: 0 0 1rem;
+.progress-circle {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    margin: 0 auto 1rem;
 }
 
-.progress-bar-label {
+.progress-circle svg { -webkit-transform: rotate(-90deg); transform: rotate(-90deg); }
+.progress-bg { fill: none; stroke: #e5e7eb; stroke-width: 8; }
+.progress-value { fill: none; stroke: #3b82f6; stroke-width: 8; stroke-linecap: round; -webkit-transition: stroke-dashoffset 0.5s ease; transition: stroke-dashoffset 0.5s ease; }
+
+.progress-text {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    font-size: 0.85rem;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
     font-weight: 700;
-    color: #374151;
-    margin-bottom: 0.4rem;
-}
-
-.progress-bar-track {
-    width: 100%;
-    height: 14px;
-    background: #e5e7eb;
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    width: 1%;
-    background: #3b82f6;
-    border-radius: 999px;
-    -webkit-transition: width 0.5s ease;
-    transition: width 0.5s ease;
+    font-size: 1.05rem;
+    color: #1f2937;
 }
 
 .insert-coin-details {

@@ -333,7 +333,7 @@ async function checkCoin() {
         } else if (data.errorCode === "coin.is.reading") {
             showToast("Processing coin", "warning");
         } else if (data.errorCode === "coin.not.inserted") {
-            updateProgress(100 - Math.min(100, progressPercent));
+            updateProgress(progressPercent);
             if (remainSeconds > 0) {
                 if (coin > 0) {
                     document.getElementById("userCoin").textContent = coin;
@@ -450,19 +450,10 @@ function initConvertVoucher() {
 
 function showNotification(message) {
     document.getElementById("notificationMessage").innerHTML = "" + message;
-    var fill = document.getElementById("notifProgress");
-    if (fill) { fill.style.transition = 'none'; fill.style.width = '1%'; }
     modalShow(modal[4]);
 }
 
 function closeNotification(ms) {
-    var fill = document.getElementById("notifProgress");
-    if (fill && ms) {
-        setTimeout(function () {
-            fill.style.transition = 'width ' + ms + 'ms linear';
-            fill.style.width = '100%';
-        }, 30);
-    }
     setTimeout(function () {
         modalHide(modal[4]);
     }, ms);
@@ -471,14 +462,14 @@ function closeNotification(ms) {
 let toastCount = 0;
 
 var progressValue = null;
+var circumference = 2 * Math.PI * 40;
 
 function updateProgress(progress) {
     if (!progressValue) progressValue = document.getElementById('progress-value');
     if (!progressValue) return;
-    var pct = Math.max(1, Math.min(100, Math.floor(progress)));
-    progressValue.style.width = pct + '%';
-    var pctEl = document.getElementById('progressPct');
-    if (pctEl) pctEl.textContent = pct + '%';
+    var pct = Math.max(0, Math.min(100, progress));
+    var offset = circumference - (pct / 100) * circumference;
+    progressValue.style.strokeDashoffset = offset;
 }
 
 function showToast(message, type = "success") {
