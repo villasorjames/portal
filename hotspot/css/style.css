@@ -333,6 +333,7 @@ a:hover { text-decoration: underline; }
     cursor: pointer;
     transition: filter 0.15s ease;
     line-height: 1.2;
+    margin-bottom: 0.5rem;
 }
 
 .btn:hover:not(:disabled) { filter: brightness(0.95); }

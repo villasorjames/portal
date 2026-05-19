@@ -56,22 +56,22 @@ async function fetchUserTextFile() {
 setTimeout(function () { fetchUserTextFile(); }, 1500);
 
 function updateDataStats() {
+    var url = 'http://' + (hsAddress || '10.0.0.1') + '/status?_=' + Date.now();
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/status?_=' + Date.now(), true);
+    xhr.open('GET', url, true);
     xhr.timeout = 5000;
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var tmp = document.createElement('div');
-            tmp.innerHTML = xhr.responseText;
-            var inEl = tmp.querySelector('#bytesIn');
-            var outEl = tmp.querySelector('#bytesOut');
-            var inTarget = document.getElementById('bytesIn');
-            var outTarget = document.getElementById('bytesOut');
-            if (inEl && inTarget) inTarget.textContent = inEl.textContent;
-            if (outEl && outTarget) outTarget.textContent = outEl.textContent;
+            var html = xhr.responseText;
+            var m1 = html.match(/id="bytesIn"[^>]*>([^<]+)/);
+            var m2 = html.match(/id="bytesOut"[^>]*>([^<]+)/);
+            var inEl = document.getElementById('bytesIn');
+            var outEl = document.getElementById('bytesOut');
+            if (m1 && inEl) inEl.textContent = m1[1].trim();
+            if (m2 && outEl) outEl.textContent = m2[1].trim();
         }
     };
     xhr.send();
 }
-setInterval(updateDataStats, 10000);
+setInterval(updateDataStats, 5000);
 
