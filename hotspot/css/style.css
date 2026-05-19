@@ -509,8 +509,10 @@ a:hover { text-decoration: underline; }
 
 .modal-footer {
     padding: 0.75rem 1.25rem 1.25rem;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
-    gap: 0.5rem;
+    -webkit-justify-content: flex-end;
     justify-content: flex-end;
 }
 
@@ -518,10 +520,14 @@ a:hover { text-decoration: underline; }
     background: #f3f4f6;
     color: #374151;
     padding: 0.55rem 1rem;
+    -webkit-border-radius: 8px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    margin-left: 0.5rem;
 }
+
+.modal-footer button:first-child { margin-left: 0; }
 
 .modal-footer button:hover { background: #e5e7eb; }
 
