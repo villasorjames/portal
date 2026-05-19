@@ -8,17 +8,15 @@
  *   - Full config via browser (no reflashing needed)
  *   - CORS-enabled API endpoints (compatible with LPB hotspot portal)
  *
- * Libraries needed (Arduino Library Manager):
- *   ArduinoJson  v6.x
+ * NO extra libraries needed — only built-in ESP8266 libraries.
  *
- * Board: NodeMCU 1.0  (ESP8266 Arduino Core)
+ * Board: NodeMCU 1.0  (ESP8266 Arduino Core 3.x)
  */
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
-#include <ArduinoJson.h>
 #include <EEPROM.h>
 
 // ================================================================
@@ -177,30 +175,48 @@ String mtCall(const String& method, const String& path, const String& body, int*
     if(code) *code=c; return r;
 }
 
+// Extract a JSON string value: find "key":"VALUE" and return VALUE
+String jsonStr(const String& json, const String& key) {
+    String needle = "\"" + key + "\":\"";
+    int p = json.indexOf(needle);
+    if (p < 0) return "";
+    p += needle.length();
+    int e = json.indexOf('"', p);
+    if (e < 0) return "";
+    return json.substring(p, e);
+}
+
 String mtUserId(const String& name) {
-    int c=0; String r=mtCall("GET","/rest/ip/hotspot/user?name="+name,"",&c);
-    if(c!=200||r.length()<3) return "";
-    DynamicJsonDocument doc(512);
-    if(deserializeJson(doc,r)!=DeserializationError::Ok) return "";
-    if(doc.is<JsonArray>()&&doc.size()>0) return doc[0][".id"]|String("");
-    return "";
+    int c = 0;
+    String r = mtCall("GET", "/rest/ip/hotspot/user?name=" + name, "", &c);
+    if (c != 200 || r.length() < 3) return "";
+    return jsonStr(r, ".id");
 }
 bool mtUserCreate(const String& name, int mins) {
-    String b="{\"name\":\""+name+"\",\"password\":\""+name+
-             "\",\"profile\":\""+String(cfg.hsProfile)+
-             "\",\"server\":\""+String(cfg.hsServer)+"\"";
-    if(mins>0){ int h=mins/60,m=mins%60; String t=(h?String(h)+"h":"")+(m?String(m)+"m":""); b+=",\"limit-uptime\":\""+t+"\""; }
-    b+="}"; int c=0; mtCall("POST","/rest/ip/hotspot/user",b,&c); return(c==200||c==201);
+    String b = "{\"name\":\"" + name + "\",\"password\":\"" + name +
+               "\",\"profile\":\"" + String(cfg.hsProfile) +
+               "\",\"server\":\""  + String(cfg.hsServer)  + "\"";
+    if (mins > 0) {
+        int h = mins/60, m = mins%60;
+        String t = (h ? String(h)+"h" : "") + (m ? String(m)+"m" : "");
+        b += ",\"limit-uptime\":\"" + t + "\"";
+    }
+    b += "}";
+    int c = 0; mtCall("POST", "/rest/ip/hotspot/user", b, &c);
+    return (c == 200 || c == 201);
 }
-void mtUserDelete(const String& id){ mtCall("DELETE","/rest/ip/hotspot/user/"+id,""); }
-String mtUserUptime(const String& id){
-    int c=0; String r=mtCall("GET","/rest/ip/hotspot/user/"+id,"",&c);
-    if(c!=200) return ""; DynamicJsonDocument doc(512);
-    if(deserializeJson(doc,r)!=DeserializationError::Ok) return "";
-    return doc["limit-uptime"]|String("");
+void mtUserDelete(const String& id) {
+    mtCall("DELETE", "/rest/ip/hotspot/user/" + id, "");
 }
-void mtUserPatch(const String& id, const String& uptime){
-    mtCall("PATCH","/rest/ip/hotspot/user/"+id,"{\"limit-uptime\":\""+uptime+"\"}");
+String mtUserUptime(const String& id) {
+    int c = 0;
+    String r = mtCall("GET", "/rest/ip/hotspot/user/" + id, "", &c);
+    if (c != 200) return "";
+    return jsonStr(r, "limit-uptime");
+}
+void mtUserPatch(const String& id, const String& uptime) {
+    mtCall("PATCH", "/rest/ip/hotspot/user/" + id,
+           "{\"limit-uptime\":\"" + uptime + "\"}");
 }
 
 int rateTime(int amt){
