@@ -559,13 +559,23 @@ function adjustToasts() {
 function formatExpiry(val) {
     if (!val) return '--';
     val = val.trim();
-    var d = new Date(val.replace(' ', 'T'));
-    if (isNaN(d.getTime())) return val;
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var h = d.getHours(), m = d.getMinutes();
+    var h, m, dateStr = '';
+    // Handle pure time "HH:MM:SS" or "HH:MM"
+    var timeOnly = val.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+    if (timeOnly) {
+        h = parseInt(timeOnly[1]);
+        m = parseInt(timeOnly[2]);
+    } else {
+        var d = new Date(val.replace(' ', 'T'));
+        if (isNaN(d.getTime())) return val;
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        dateStr = months[d.getMonth()] + '/' + d.getDate() + ' ';
+        h = d.getHours();
+        m = d.getMinutes();
+    }
     var ampm = h >= 12 ? 'PM' : 'AM';
     h = h % 12 || 12;
-    return months[d.getMonth()] + '/' + d.getDate() + ' ' + h + ':' + (m < 10 ? '0' + m : m) + ' ' + ampm;
+    return dateStr + h + ':' + (m < 10 ? '0' + m : m) + ' ' + ampm;
 }
 
 function timeConvert(seconds) {
@@ -663,7 +673,7 @@ function sessionTimeConvert(seconds) {
         if (days > 0 || hours > 0) parts.push(pad2(hours) + "h");
         parts.push(pad2(minutes) + "m");
         parts.push(pad2(secs) + "s");
-        remainingEl.textContent = parts.join(" ");
+        remainingEl.textContent = parts.join(":");
     }
 }
 
