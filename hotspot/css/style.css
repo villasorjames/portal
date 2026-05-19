@@ -444,12 +444,17 @@ a:hover { text-decoration: underline; }
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 1rem;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
 }
 
 .modal-content {
     background: #fff;
     border-radius: 16px;
-    margin: 2rem auto;
+    margin: auto;
     width: 100%;
     max-width: 420px;
     overflow: hidden;

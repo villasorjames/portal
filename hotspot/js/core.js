@@ -19,6 +19,11 @@ var multiVendoArray;
 var InsertCoinSound = new Audio("sound/bgmusic.mp3");
 InsertCoinSound.loop = true;
 
+document.addEventListener('touchstart', function unlockAudio() {
+    InsertCoinSound.load();
+    document.removeEventListener('touchstart', unlockAudio);
+}, false);
+
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 function hideById(id) {
@@ -261,10 +266,10 @@ async function topUp() {
         const data = await response.json();
 
         if (data.status === "true") {
-            InsertCoinSound.play();
+            var p = InsertCoinSound.play(); if (p) p.catch(function(){});
             isInsertingCoin = true;
             closeNotification(10);
-            modal[0].style = "display: block";
+            modal[0].style.display = "flex";
             voucher = data.voucher;
             if (timer === null) {
                 timer = setInterval(checkCoin, 1000);
@@ -380,7 +385,7 @@ async function loginVoucher() {
         const data = await response.json();
 
         if (data.status === "true") {
-            modal[0].style = "display: none";
+            modal[0].style.display = "none";
             showNotification("Logging in voucher: " + voucher, 3000);
             setTimeout(() => location.reload(), 2000);
         }
@@ -393,7 +398,7 @@ async function loginVoucher() {
         const data = await response.json();
 
         if (data.status === "true") {
-            modal[0].style = "display: none";
+            modal[0].style.display = "none";
             showNotification("Extending voucher: " + voucher, 3000);
             setTimeout(() => location.reload(), 2000);
         }
@@ -402,7 +407,7 @@ async function loginVoucher() {
 
 async function convertVoucher(convertCode) {
     await topUp();
-    modal[0].style = "display: none";
+    modal[0].style.display = "none";
     await delay(2000);
 
     var syncVoucher = (typeof toSyncVoucher !== 'undefined' && toSyncVoucher) ? toSyncVoucher : (typeof resumeVoucher !== 'undefined' && resumeVoucher ? resumeVoucher : voucher);
@@ -412,7 +417,7 @@ async function convertVoucher(convertCode) {
     var data = await response.json();
 
     if (data.status === "true") {
-        modal[0].style = "display: none";
+        modal[0].style.display = "none";
         showNotification(
             "Converting voucher: " + convertCode +
             " success! <br><br><small>Applying your new time, please wait</small>"
@@ -423,7 +428,7 @@ async function convertVoucher(convertCode) {
         showNotification("Converting voucher: " + convertCode + " failed.");
         await delay(2000);
         cancelTopUp();
-        modal[0].style = "display: none";
+        modal[0].style.display = "none";
         closeNotification(3000);
     }
 }
@@ -433,7 +438,7 @@ function initConvertVoucher() {
     if (!input) return;
     var value = input.value.trim();
     if (value != '') {
-        if (modal[6]) modal[6].style = 'display: none';
+        if (modal[6]) modal[6].style.display = 'none';
         convertVoucher(value);
     } else {
         showToast('Please input a voucher', 'warning');
@@ -442,12 +447,12 @@ function initConvertVoucher() {
 
 function showNotification(message) {
     document.getElementById("notificationMessage").innerHTML = "" + message;
-    modal[4].style = "display: block";
+    modal[4].style.display = "flex";
 }
 
 function closeNotification(ms) {
     setTimeout(() => {
-        modal[4].style = "display: none";
+        modal[4].style.display = "none";
     }, ms);
 }
 
