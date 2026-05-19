@@ -52,11 +52,11 @@ function extractCode(?string $raw, string $prefix): ?string
     return $raw;
 }
 
-// --- API mode: ?do=1&amt=... returns JSON, called by the page via fetch ---
-if (isset($_GET['do'])) {
+// --- API mode: POST do=1&amt=... returns JSON, called by the page via fetch ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do'])) {
     header('Content-Type: application/json; charset=utf-8');
 
-    $amt = trim((string) ($_GET['amt'] ?? ''));
+    $amt = trim((string) ($_POST['amt'] ?? ''));
     if ($amt === '' || !preg_match('/^\d+(\.\d{1,2})?$/', $amt)) {
         http_response_code(400);
         echo json_encode(['error' => 'Enter a valid amount (numbers only).']);
@@ -233,7 +233,16 @@ if (isset($_GET['do'])) {
       elTest.disabled = true;
       elGo.textContent = 'Generating…';
 
-      fetch('?do=1&amt=' + encodeURIComponent(amt), { cache:'no-store' })
+      var body = new URLSearchParams();
+      body.append('do', '1');
+      body.append('amt', amt);
+
+      fetch('', {
+        method: 'POST',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString()
+      })
         .then(function(r){ return r.json(); })
         .then(function(d){
           if (d.error) {
