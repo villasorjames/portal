@@ -629,7 +629,7 @@ function sessionTimeConvert(seconds) {
     if (remainingEl) {
         var parts = [];
         if (days > 0) parts.push(days + "d");
-        parts.push(pad2(hours) + "h");
+        if (days > 0 || hours > 0) parts.push(pad2(hours) + "h");
         parts.push(pad2(minutes) + "m");
         parts.push(pad2(secs) + "s");
         remainingEl.textContent = parts.join(" ");

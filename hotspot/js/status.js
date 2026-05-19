@@ -55,3 +55,23 @@ async function fetchUserTextFile() {
 
 setTimeout(function () { fetchUserTextFile(); }, 1500);
 
+function updateDataStats() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/status?_=' + Date.now(), true);
+    xhr.timeout = 5000;
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = xhr.responseText;
+            var inEl = tmp.querySelector('#bytesIn');
+            var outEl = tmp.querySelector('#bytesOut');
+            var inTarget = document.getElementById('bytesIn');
+            var outTarget = document.getElementById('bytesOut');
+            if (inEl && inTarget) inTarget.textContent = inEl.textContent;
+            if (outEl && outTarget) outTarget.textContent = outEl.textContent;
+        }
+    };
+    xhr.send();
+}
+setInterval(updateDataStats, 10000);
+

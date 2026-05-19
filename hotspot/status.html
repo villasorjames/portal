@@ -162,20 +162,26 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
                                     Upload
                                 </span>
-                                <span class="info-value">$(bytes-in-nice)</span>
+                                <span class="info-value" id="bytesIn">$(bytes-in-nice)</span>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
                                     Download
                                 </span>
-                                <span class="info-value">$(bytes-out-nice)</span>
+                                <span class="info-value" id="bytesOut">$(bytes-out-nice)</span>
                             </div>
                         </div>
 
                         $(if session-time-left)
                         $(if login-by != 'trial')
-                        <!-- Extend (primary) -->
+                        <!-- Pause Time (full width, same position as Resume in login) -->
+                        <button type="button" class="btn btn-warning" id="pauseButton" onclick="pause()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                            Pause Time
+                        </button>
+
+                        <!-- Extend -->
                         <button type="button" class="btn btn-success" id="insert-coin-button" user-type="extend" onclick="openModal(0)" aria-label="Extend session">
                             <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                             <span>Extend</span>
@@ -192,13 +198,7 @@
                                 Vouchers
                             </button>
                         </div>
-                        <div class="action-grid">
-                            <button type="button" class="btn btn-warning" id="pauseButton" onclick="pause()">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                                Pause Time
-                            </button>
-                            <div id="gcash-button-wrapper"></div>
-                        </div>
+                        <div id="gcash-button-wrapper"></div>
                         $(endif)
                         $(else)
                         <button type="button" class="btn btn-danger" id="memberLogoutButton" onclick="logout()">
