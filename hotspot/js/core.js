@@ -24,8 +24,25 @@ document.addEventListener('touchstart', function unlockAudio() {
     document.removeEventListener('touchstart', unlockAudio);
 }, false);
 
-function modalShow(el) { el.style.display = '-webkit-flex'; el.style.display = 'flex'; }
-function modalHide(el) { el.style.display = 'none'; }
+function modalShow(el) {
+    el.style.display = '-webkit-box';
+    el.style.display = '-webkit-flex';
+    el.style.display = 'flex';
+    setTimeout(function () {
+        var content = el.querySelector('.modal-content');
+        if (content) {
+            var wh = window.innerHeight || document.documentElement.clientHeight;
+            var ch = content.offsetHeight;
+            var mt = Math.max(16, (wh - ch) / 2);
+            content.style.marginTop = mt + 'px';
+        }
+    }, 0);
+}
+function modalHide(el) {
+    el.style.display = 'none';
+    var content = el.querySelector('.modal-content');
+    if (content) content.style.marginTop = '';
+}
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
