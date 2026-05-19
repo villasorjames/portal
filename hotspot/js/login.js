@@ -72,9 +72,7 @@ async function fetchUserTextFile(skipAutoLogin) {
         } else {
             sessionTimeConvert(localStorage.getItem('remainingTime'));
             resumeVoucher = voucher;
-            document.getElementById('resumeWrapper').style.display = 'flex';
-            var timerCard = document.getElementById('timerCard');
-            if (timerCard) timerCard.style.display = 'block';
+            document.getElementById('resumeWrapper').style.display = 'block';
             var extendBtn = document.getElementById('insert-coin-button');
             extendBtn.setAttribute('user-type', 'extend');
             extendBtn.querySelector('strong').textContent = 'EXTEND';

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <script>if(window.history&&window.history.replaceState){window.history.replaceState(null,document.title,window.location.href)}</script>
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#05080d" />
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="-1">
-    <title>Internet Hotspot - Status</title>
+    <title>Internet hotspot - Status</title>
     <script>var _ts=Date.now();document.write('<link rel="stylesheet" href="css/style.css?ts='+_ts+'">');document.write('<script src="js/core.js?ts='+_ts+'"><\/script>');</script>
     <script>
         var hsAddress = "$(server-address)";
@@ -35,131 +35,122 @@
             return false;
         }
     </script>
+
 </head>
 
-<body $(if advert-pending=='yes') onLoad="openAdvert()" $(endif)>
+<body $(if advert-pending=='yes' ) onLoad="openAdvert()" $(endif)>
     <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+    <div class="ie-fixMinHeight">
+        <main class="main">
+            <div class="wrap">
+                <div class="container">
 
-    <div class="page">
-        <div class="page-inner">
+                    <header class="header">
+                        <h1 id="hotspotName">SPACE PORTAL</h1>
+                        <div id="vendoName"></div>
+                        <div class="flex-between font-small opacity-75">
+                            <span>$(ip)</span>
+                            <span>$(mac)</span>
+                        </div>
+                        <div class="flex-between font-small" style="margin-top:6px">
+                            <span>EXP: <span id="expiry">--</span></span>
+                            <span id="vendoStatus">NodeMCU: <span class="vendo-dot"></span></span>
+                        </div>
+                    </header>
 
-            <!-- Title -->
-            <h1 class="brand-title" id="hotspotName">James Tech Hotspot</h1>
-            <div class="brand-vendo" id="vendoName"></div>
+                    <section class="body">
+                        $(if session-time-left)
+                        <div class="time-wrapper flex text-align-center highlight" role="timer" aria-label="Session time remaining" style="position:relative">
+                            <span class="session-status" id="sessionStatus" style="position:absolute;top:6px;left:8px"><span class="session-dot" id="sessionDot"></span><span class="session-label"></span></span>
+                            <div>
+                                <p class="time" id="days">00</p>
+                                <p class="label">DAYS</p>
+                            </div>
+                            <div>
+                                <p class="separator semicolon">:</p>
+                                <p class="separator-hidden">|</p>
+                            </div>
+                            <div>
+                                <p class="time" id="hours">00</p>
+                                <p class="label">HOURS</p>
+                            </div>
+                            <div>
+                                <p class="separator semicolon">:</p>
+                                <p class="separator-hidden">|</p>
+                            </div>
+                            <div>
+                                <p class="time" id="minutes">00</p>
+                                <p class="label">MINUTES</p>
+                            </div>
+                            <div>
+                                <p class="separator semicolon">:</p>
+                                <p class="separator-hidden">|</p>
+                            </div>
+                            <div>
+                                <p class="time" id="seconds">00</p>
+                                <p class="label">SECONDS</p>
+                            </div>
+                        </div>
+                        $(if login-by == 'trial')
+                        <div><h1>FREE TRIAL USER</h1></div>
+                        $(endif)
+                        $(if login-by != 'trial')
+                        <div class="flex-between bordered-thin mt-n10">
+                            <button type="button" id="pauseButton" style="width: 100%;" onclick="pause()">PAUSE</button>
+                        </div>
 
-            <!-- Illustration -->
-            <div class="illustration" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" fill="none">
-                    <defs>
-                        <linearGradient id="wifiGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#a5f3fc"/>
-                            <stop offset="100%" stop-color="#67e8f9"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M170 200 A 140 140 0 0 1 30 60 L 60 60 A 110 110 0 0 0 170 170 A 110 110 0 0 0 280 60 L 310 60 A 140 140 0 0 1 170 200 Z" fill="url(#wifiGrad)" opacity=".6"/>
-                    <path d="M170 200 A 100 100 0 0 1 70 100 L 100 100 A 70 70 0 0 0 170 170 A 70 70 0 0 0 240 100 L 270 100 A 100 100 0 0 1 170 200 Z" fill="url(#wifiGrad)" opacity=".8"/>
-                    <path d="M170 200 A 60 60 0 0 1 110 140 L 140 140 A 30 30 0 0 0 170 170 A 30 30 0 0 0 200 140 L 230 140 A 60 60 0 0 1 170 200 Z" fill="#06b6d4"/>
-                    <rect x="155" y="100" width="30" height="50" rx="4" fill="#1f2937"/>
-                    <rect x="158" y="105" width="24" height="38" rx="2" fill="#06b6d4" opacity=".7"/>
-                    <circle cx="170" cy="147" r="1.5" fill="#9ca3af"/>
-                </svg>
-            </div>
+                        <button type="button" class="btn" id="insert-coin-button" user-type="extend" onclick="openModal(0)" aria-label="Extend session">
+                            <strong>EXTEND</strong>
+                            <div id="container-stars">
+                                <div id="stars"></div>
+                            </div>
+                            <div id="glow">
+                                <div class="circle"></div>
+                                <div class="circle"></div>
+                            </div>
+                        </button>
 
-            <!-- IP / MAC info -->
-            <div class="info-line">
-                <div><span class="ilabel">IP:</span><span class="ival">$(ip)</span></div>
-                <div><span class="ilabel">MAC:</span><span class="ival">$(mac)</span></div>
-            </div>
+                        <div class="bordered">
+                            <div class="inputBox mb-20">
+                                <input type="text" id="convertVoucherInput" aria-label="Voucher code">
+                                <span>Voucher</span>
+                            </div>
+                            <div class="mb-10">
+                                <button type="button" onclick="initConvertVoucher()">SUBMIT</button>
+                            </div>
+                            <div id="gcash-button-wrapper"></div>
+                        </div>
+                        $(endif)
+                        $(else)
+                        <div class="bordered-thin">
+                            <center>
+                                <h1>$(username)</h1>
+                                <h2>MEMBER: UNLIMITED</h2>
+                            </center>
+                        </div>
+                        <div class="mt-10">
+                            <button type="button" id="memberLogoutButton" onclick="logout()">LOGOUT</button>
+                        </div>
+                        $(endif)
 
-            <!-- Node status -->
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px;margin-bottom:4px">
-                <div class="node-badge" id="vendoStatus">NODE <span class="vendo-dot"></span></div>
-                <div class="node-badge">EXP: <span id="expiry" style="color:#374151;font-weight:600">--</span></div>
-            </div>
-
-            $(if session-time-left)
-            <!-- Session countdown -->
-            <div class="timer-card">
-                <div class="timer-status-row">
-                    <span class="session-status" id="sessionStatus" style="position:relative">
-                        <span class="session-dot" id="sessionDot"></span>
-                        <span class="session-label"></span>
-                    </span>
+                    </section>
+                    $(if session-time-left)
+                    $(if login-by != 'trial')
+                    <footer class="footer flex">
+                        <button type="button" id="memberButton" class="footer-button" onclick="openModal(1)">MEMBER</button>
+                        <button type="button" id="ratesButton" class="footer-button" onclick="openModal(2)">RATES</button>
+                    </footer>
+                    $(endif)
+                    $(endif)
                 </div>
-                <div class="timer-grid" role="timer" aria-label="Session time remaining">
-                    <div class="timer-block"><span class="time" id="days">00</span><span class="t-suffix">D</span></div>
-                    <span class="t-sep">:</span>
-                    <div class="timer-block"><span class="time" id="hours">00</span><span class="t-suffix">H</span></div>
-                    <span class="t-sep">:</span>
-                    <div class="timer-block"><span class="time" id="minutes">00</span><span class="t-suffix">M</span></div>
-                    <span class="t-sep">:</span>
-                    <div class="timer-block"><span class="time" id="seconds">00</span><span class="t-suffix">S</span></div>
-                </div>
             </div>
-
-            $(if login-by == 'trial')
-            <div class="member-info"><h1>FREE TRIAL USER</h1></div>
-            $(endif)
-
-            $(if login-by != 'trial')
-            <!-- Primary action buttons (stacked) -->
-            <div class="actions-stack">
-                <button type="button" id="pauseButton" class="btn-outline btn-pause" onclick="pause()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                    PAUSE
-                </button>
-                <button type="button" class="btn-primary" id="insert-coin-button" user-type="extend" onclick="openModal(0)" aria-label="Extend session">
-                    <strong>EXTEND</strong>
-                    <div id="container-stars"><div id="stars"></div></div>
-                    <div id="glow"><div class="circle"></div><div class="circle"></div></div>
-                </button>
-                <div id="gcash-button-wrapper"></div>
-            </div>
-
-            <!-- Voucher input -->
-            <div class="voucher-wrap">
-                <div class="inputBox">
-                    <input type="text" id="convertVoucherInput" aria-label="Voucher code">
-                    <span>Voucher Code</span>
-                </div>
-                <button type="button" class="btn-outline" style="height:46px;font-size:14px" onclick="initConvertVoucher()">
-                    <strong>SUBMIT VOUCHER</strong>
-                </button>
-            </div>
-            $(endif)
-
-            $(else)
-            <!-- Member unlimited -->
-            <div class="member-info">
-                <h1>$(username)</h1>
-                <p class="member-badge">MEMBER — UNLIMITED</p>
-            </div>
-            <button type="button" id="memberLogoutButton" class="btn-outline btn-logout" onclick="logout()">LOGOUT</button>
-            $(endif)
-
-            $(if session-time-left)
-            $(if login-by != 'trial')
-            <!-- Bottom action grid -->
-            <div class="bottom-grid">
-                <button type="button" id="ratesButton" class="grid-btn" onclick="openModal(2)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
-                    Wi-Fi Rates
-                </button>
-                <button type="button" id="memberButton" class="grid-btn alt" onclick="openModal(1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Member
-                </button>
-            </div>
-            $(endif)
-            $(endif)
-
-        </div>
+        </main>
     </div>
 
     <!-- modal[0] : insert coin -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Insert coin">
         <div class="modal-content">
-            <div class="modal-head mb-20"><span>Insert Coin</span></div>
+            <div class="modal-head mb-20"><span>Please insert coin</span></div>
             <div class="modal-body">
                 <div>
                     <div class="progress-circle">
@@ -190,7 +181,7 @@
     <!-- modal[1] : member login -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Member login">
         <div class="modal-content">
-            <div class="modal-head"><span>Member Login</span></div>
+            <div class="modal-head"><span>Member login</span></div>
             <div class="modal-body">
                 <form name="memlogin" class="flex-column" action="$(link-login-only)" method="post" $(if chap-id)
                     onSubmit="return doLoginMember()" $(endif)>
@@ -198,7 +189,7 @@
                     <input type="hidden" name="popup" value="true" />
                     <input name="memusername" type="text" placeholder="Username" required />
                     <input name="mempassword" type="password" placeholder="Password" required />
-                    <input type="submit" value="LOGIN" class="button mt-20" />
+                    <input type="submit" value="LOGIN" class="button" class="mt-20" />
                 </form>
             </div>
             <div class="modal-footer">
@@ -229,8 +220,9 @@
     <!-- modal[3] : select vendo -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Select vendo">
         <div class="modal-content">
-            <div class="modal-head"><span>Select Vendo</span></div>
-            <div class="modal-body" id="vendo-list"></div>
+            <div class="modal-head"><span>Select vendo</span></div>
+            <div class="modal-body" id="vendo-list">
+            </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal(3)">CLOSE</button>
             </div>
@@ -239,9 +231,11 @@
 
     <!-- modal[4] : notification -->
     <div class="modal" role="alertdialog" aria-modal="true" aria-label="Notification">
-        <div class="modal-content" style="width:90%">
+        <div class="modal-content" style="width: 90%;">
             <div class="modal-body-notification p-10">
-                <center><h2 id="notificationMessage"></h2></center>
+                <center>
+                    <h2 id="notificationMessage"></h2>
+                </center>
             </div>
         </div>
     </div>
@@ -250,7 +244,7 @@
     $(if session-time-left)
     <script>
         var sessionTimeLeftInterval = null;
-        if(sessionTimeLeftInterval === null){
+        if(sessionTimeLeftInterval === null) {
             sessionTimeLeftInterval = setInterval(userTimeLeft, 1000);
         }
         function userTimeLeft(){
@@ -259,15 +253,15 @@
                 sessionTimeConvert(sessionTimeLeftSecs);
             } else {
                 showNotification(`Thank You!<br><br>voucher ${toSyncVoucher} time's up`);
-                setTimeout(()=>{location.reload()},3000);
+                setTimeout(()=>{location.reload()},3000)
             }
         }
         var statusRefreshTimer = null;
         if(statusRefreshTimer === null){
             statusRefreshTimer = setInterval(refreshStatusPage, statusRefresh * 1000);
         }
-        function refreshStatusPage(){
-            if(!isInsertingCoin){ location.reload(); }
+        function refreshStatusPage() {
+            if (!isInsertingCoin) { location.reload(); }
         }
     </script>
     $(endif)

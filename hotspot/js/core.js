@@ -365,8 +365,6 @@ async function loginVoucher() {
 
 async function convertVoucher(convertCode) {
     await topUp();
-    InsertCoinSound.pause();
-    InsertCoinSound.currentTime = 0;
     modal[0].style = "display: none";
     await delay(2000);
 
