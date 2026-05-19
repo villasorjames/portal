@@ -649,8 +649,7 @@ void setup() {
     }
 
     // Collect headers
-    const char* hdrs[]={"X-TOKEN","Cookie"};
-    server.collectHeaders(hdrs,2);
+    server.collectHeaders("X-TOKEN", "Cookie");
 
     // ---- Web UI routes ----
     server.on("/",          HTTP_GET,  onUIRoot);
