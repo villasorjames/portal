@@ -9,6 +9,8 @@
         "enable_wifi_rate": true,
         "enable_gcash": false,
         "enable_member_logout": true,
+        "enable_voucher_gen": false,
+        "vendo_api_token": "12345",
         "gcash_node_ip": "PHPASTE MO DITO ANG IPHP NG NODE NA NAKA BIND SA WIFREE",
         "gcash_portal_key": "PHPASTE MO DITO ANG PHPORTAL KEY GALING KAY WIFREE",
         "single_vendo_ip": "",

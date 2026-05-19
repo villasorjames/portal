@@ -3,6 +3,7 @@ errorCode["coin.slot.banned"] = "Too many attempts, please try again later";
 errorCode["coinslot.busy"] = "Coinslot busy";
 
 var vendoIpAddress;
+var vendoApiToken = '12345';
 var loginOption;
 var isMultiVendo;
 var multivendoOption;
@@ -104,7 +105,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     pauseCount = setting.pause_count;
     isMacAsVoucher = true;
     currency = setting.currency || "PHP";
+    vendoApiToken = setting.vendo_api_token || '12345';
     var enableMemberLogout = setting.enable_member_logout;
+
+    if (setting.enable_voucher_gen) {
+        var genRow = document.getElementById('genVoucherRow');
+        if (genRow) genRow.style.display = '';
+    }
 
     var multiVendoIps = setting.multi_vendo_ip;
     var insertCoinBtn = document.getElementById("insert-coin-button");
@@ -592,6 +599,66 @@ function timeConvert(seconds) {
     if (secs > 0)  parts.push(secs + "s");
 
     return parts.join(" ");
+}
+
+function initGenerateVoucher() {
+    var input = document.getElementById('genVoucherAmt');
+    if (!input) return;
+    var amt = input.value.trim();
+    if (!amt || !/^\d+(\.\d{1,2})?$/.test(amt)) {
+        showToast('Enter a valid amount', 'warning');
+        return;
+    }
+    if (modal[7]) modalHide(modal[7]);
+    generateAndSubmitVoucher(amt);
+}
+
+function generateAndSubmitVoucher(amt) {
+    showNotification('Generating voucher for ' + currency + amt + '...');
+    var url = 'http://' + vendoIpAddress +
+        '/admin/api/generateVouchers?pfx=VC&qty=1&sales=0&print=0&amt=' +
+        encodeURIComponent(amt);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.setRequestHeader('X-TOKEN', vendoApiToken);
+    xhr.timeout = 8000;
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var code = extractVoucherCode(xhr.responseText.trim(), 'VC');
+            if (code) {
+                closeNotification(10);
+                showToast('Voucher: ' + code, 'success');
+                setTimeout(function () { convertVoucher(code); }, 1000);
+            } else {
+                showNotification('No voucher code in response: ' + xhr.responseText);
+                closeNotification(4000);
+            }
+        } else {
+            showNotification('API error: HTTP ' + xhr.status);
+            closeNotification(3000);
+        }
+    };
+    xhr.onerror = function () {
+        showNotification('Cannot reach vendo API');
+        closeNotification(3000);
+    };
+    xhr.ontimeout = function () {
+        showNotification('Vendo API timeout');
+        closeNotification(3000);
+    };
+    xhr.send();
+}
+
+function extractVoucherCode(raw, prefix) {
+    if (!raw) return null;
+    var re = new RegExp('\\b' + prefix + '[A-Za-z0-9]+\\b');
+    var m = raw.match(re);
+    if (m) return m[0];
+    if (raw.indexOf('|') !== -1) {
+        var parts = raw.split('|');
+        return parts[parts.length - 1].trim();
+    }
+    return raw || null;
 }
 
 function rateTimeConvert(seconds) {
