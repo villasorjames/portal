@@ -9,9 +9,9 @@ function openModal(index) {
         initInsertCoin();
     } else if (index === 2) {
         fetchRatesFromServer();
-        modal[index].style.display = 'flex';
+        modalShow(modal[index]);
     } else {
-        modal[index].style.display = 'flex';
+        modalShow(modal[index]);
     }
 }
 
@@ -19,7 +19,7 @@ function closeModal(index) {
     if (index === 0) {
         cancelTopUp();
     }
-    modal[index].style.display = 'none';
+    modalHide(modal[index]);
 }
 
 if (potalError != '') {

@@ -5,9 +5,9 @@ function openModal(index) {
         initInsertCoin();
     } else if (index === 2) {
         fetchRatesFromServer();
-        modal[index].style.display = 'flex';
+        modalShow(modal[index]);
     } else if (index === 5) {
-        modal[index].style.display = 'flex';
+        modalShow(modal[index]);
         var trialLink = document.getElementById('trial-link');
         var timer = 10;
         setInterval(function () {
@@ -18,7 +18,7 @@ function openModal(index) {
             }
         }, 1000);
     } else {
-        modal[index].style.display = 'flex';
+        modalShow(modal[index]);
     }
 }
 
@@ -26,7 +26,7 @@ function closeModal(index) {
     if (index === 0) {
         cancelTopUp();
     }
-    modal[index].style.display = 'none';
+    modalHide(modal[index]);
 }
 
 fetch("/setting.json")

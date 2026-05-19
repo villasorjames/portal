@@ -24,6 +24,9 @@ document.addEventListener('touchstart', function unlockAudio() {
     document.removeEventListener('touchstart', unlockAudio);
 }, false);
 
+function modalShow(el) { el.style.display = '-webkit-flex'; el.style.display = 'flex'; }
+function modalHide(el) { el.style.display = 'none'; }
+
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 function hideById(id) {
@@ -269,7 +272,7 @@ async function topUp() {
             var p = InsertCoinSound.play(); if (p) p.catch(function(){});
             isInsertingCoin = true;
             closeNotification(10);
-            modal[0].style.display = "flex";
+            modalShow(modal[0]);
             voucher = data.voucher;
             if (timer === null) {
                 timer = setInterval(checkCoin, 1000);
@@ -385,7 +388,7 @@ async function loginVoucher() {
         const data = await response.json();
 
         if (data.status === "true") {
-            modal[0].style.display = "none";
+            modalHide(modal[0]);
             showNotification("Logging in voucher: " + voucher, 3000);
             setTimeout(() => location.reload(), 2000);
         }
@@ -398,8 +401,8 @@ async function loginVoucher() {
         const data = await response.json();
 
         if (data.status === "true") {
-            modal[0].style.display = "none";
-            showNotification("Extending voucher: " + voucher, 3000);
+            modalHide(modal[0]);
+            showNotification("Syncing: " + sanitizeMac, 3000);
             setTimeout(() => location.reload(), 2000);
         }
     }
@@ -407,7 +410,7 @@ async function loginVoucher() {
 
 async function convertVoucher(convertCode) {
     await topUp();
-    modal[0].style.display = "none";
+    modalHide(modal[0]);
     await delay(2000);
 
     var syncVoucher = (typeof toSyncVoucher !== 'undefined' && toSyncVoucher) ? toSyncVoucher : (typeof resumeVoucher !== 'undefined' && resumeVoucher ? resumeVoucher : voucher);
@@ -417,7 +420,7 @@ async function convertVoucher(convertCode) {
     var data = await response.json();
 
     if (data.status === "true") {
-        modal[0].style.display = "none";
+        modalHide(modal[0]);
         showNotification(
             "Converting voucher: " + convertCode +
             " success! <br><br><small>Applying your new time, please wait</small>"
@@ -428,7 +431,7 @@ async function convertVoucher(convertCode) {
         showNotification("Converting voucher: " + convertCode + " failed.");
         await delay(2000);
         cancelTopUp();
-        modal[0].style.display = "none";
+        modalHide(modal[0]);
         closeNotification(3000);
     }
 }
@@ -438,7 +441,7 @@ function initConvertVoucher() {
     if (!input) return;
     var value = input.value.trim();
     if (value != '') {
-        if (modal[6]) modal[6].style.display = 'none';
+        if (modal[6]) modalHide(modal[6]);
         convertVoucher(value);
     } else {
         showToast('Please input a voucher', 'warning');
@@ -447,28 +450,26 @@ function initConvertVoucher() {
 
 function showNotification(message) {
     document.getElementById("notificationMessage").innerHTML = "" + message;
-    modal[4].style.display = "flex";
+    modalShow(modal[4]);
 }
 
 function closeNotification(ms) {
     setTimeout(() => {
-        modal[4].style.display = "none";
+        modalHide(modal[4]);
     }, ms);
 }
 
 let toastCount = 0;
 
 var progressValue = null;
-var currentProgress = 100;
-var circumference = 2 * Math.PI * 40;
-var maxProgress = 100;
 
 function updateProgress(progress) {
-    if (!progressValue) progressValue = document.querySelector('#progress-value');
+    if (!progressValue) progressValue = document.getElementById('progress-value');
     if (!progressValue) return;
-    currentProgress = Math.max(0, Math.min(maxProgress, progress));
-    var offset = circumference - (currentProgress / 100) * circumference;
-    progressValue.style.strokeDashoffset = offset;
+    var pct = Math.max(1, Math.min(100, Math.floor(progress)));
+    progressValue.style.width = pct + '%';
+    var pctEl = document.getElementById('progressPct');
+    if (pctEl) pctEl.textContent = pct + '%';
 }
 
 function showToast(message, type = "success") {
@@ -552,22 +553,18 @@ function formatExpiry(val) {
 
 function timeConvert(seconds) {
     seconds = Number(seconds);
-    var daySecs = 86400;
-    var hourSecs = 3600;
-    var minSecs = 60;
-
-    var days = Math.floor(seconds / daySecs);
-    var hours = Math.floor(seconds % daySecs / hourSecs);
-    var minutes = Math.floor(seconds % hourSecs / minSecs);
-    var secs = Math.floor(seconds % minSecs);
+    var days    = Math.floor(seconds / 86400);
+    var hours   = Math.floor(seconds % 86400 / 3600);
+    var minutes = Math.floor(seconds % 3600 / 60);
+    var secs    = Math.floor(seconds % 60);
 
     var parts = [];
-    parts.push(days + "d");
-    parts.push(hours + "h");
+    if (days > 0)  parts.push(days + "d");
+    if (days > 0 || hours > 0) parts.push(hours + "h");
     parts.push(minutes + "m");
-    if (secs > 0) parts.push(secs + "s");
+    if (secs > 0)  parts.push(secs + "s");
 
-    return parts.join(":");
+    return parts.join(" ");
 }
 
 function rateTimeConvert(seconds) {
