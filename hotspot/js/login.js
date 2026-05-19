@@ -72,12 +72,15 @@ async function fetchUserTextFile(skipAutoLogin) {
         } else {
             sessionTimeConvert(localStorage.getItem('remainingTime'));
             resumeVoucher = voucher;
-            document.getElementById('resumeWrapper').style.display = 'block';
+            var wrapper = document.getElementById('resumeWrapper');
+            if (wrapper) wrapper.style.display = 'block';
             var extendBtn = document.getElementById('insert-coin-button');
-            extendBtn.setAttribute('user-type', 'extend');
-            extendBtn.querySelector('strong').textContent = 'EXTEND';
-            var statusEl = document.getElementById('sessionStatus');
-            if (statusEl) statusEl.className = 'session-status yellow';
+            if (extendBtn) {
+                extendBtn.setAttribute('user-type', 'extend');
+                var label = extendBtn.querySelector('span:last-child');
+                if (label) label.textContent = 'Extend';
+            }
+            setSessionState('paused');
         }
     }
 }

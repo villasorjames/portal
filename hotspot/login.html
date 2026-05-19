@@ -6,10 +6,10 @@
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#05080d" />
+    <meta name="theme-color" content="#3b82f6" />
     <meta name="description" content="Secure WiFi hotspot access portal." />
     <script>if(window.history&&window.history.replaceState){window.history.replaceState(null,document.title,window.location.href)}</script>
-    <title>Internet hotspot - Log in</title>
+    <title>PISO WIFI - Log in</title>
     <script>var _ts=Date.now();document.write('<link rel="stylesheet" href="css/style.css?ts='+_ts+'">');document.write('<script src="js/core.js?ts='+_ts+'"><\/script>');</script>
 </head>
 
@@ -54,99 +54,142 @@
     <div class="ie-fixMinHeight">
         <main class="main">
             <div class="wrap">
-                <div class="container">
+                <div class="page-card">
 
-                    <header class="header">
-                        <h1 id="hotspotName">SPACE PORTAL</h1>
-                        <div id="vendoName">JuanFi Vendo 1</div>
-                        <div class="flex-between font-small opacity-75">
-                            <span>$(ip)</span>
-                            <span>$(mac)</span>
+                    <!-- Banner -->
+                    <div class="banner-container">
+                        <img src="img/banner.jpg" alt="" class="banner-img">
+                        <div class="dark-overlay"></div>
+                        <div class="banner-text">
+                            <h1 class="wifi-text" id="hotspotName">PISO WIFI</h1>
+                            <div class="vendo-name" id="vendoName"></div>
                         </div>
-                        <div class="flex-between font-small" style="margin-top:6px">
-                            <span>EXP: <span id="expiry">--</span></span>
-                            <span id="vendoStatus">NodeMCU: <span class="vendo-dot"></span></span>
-                        </div>
-                    </header>
+                    </div>
 
-                    <section class="body">
-                        <div class="time-wrapper flex text-align-center highlight" role="timer" aria-label="Session time remaining" style="position:relative">
-                            <span class="session-status" id="sessionStatus" style="position:absolute;top:6px;left:8px"><span class="session-dot" id="sessionDot"></span><span class="session-label"></span></span>
-                            <div>
-                                <p class="time" id="days">00</p>
-                                <p class="label">DAYS</p>
+                    <div class="card-body">
+
+                        <!-- High Speed Connection announcement -->
+                        <div class="announcement">High Speed Connection</div>
+
+                        <!-- Status badge -->
+                        <div class="status-container">
+                            <div id="sessionStatus" class="status-badge disconnected">
+                                <span class="status-icon">&#x2715;</span>
+                                <span class="status-text">Disconnected</span>
+                                <span class="session-dot" style="display:none"></span>
+                                <span class="session-label" style="display:none"></span>
                             </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
+                        </div>
+
+                        <!-- Time Remaining -->
+                        <div class="time-card" id="timeCard">
+                            <div class="time-label">&#x23F1; Time Remaining</div>
+                            <div class="time-value" id="remaining-time">--</div>
+                            <!-- hidden timer parts for core.js -->
+                            <div class="timer-hidden">
+                                <span id="days">00</span>
+                                <span class="semicolon">:</span>
+                                <span id="hours">00</span>
+                                <span class="semicolon">:</span>
+                                <span id="minutes">00</span>
+                                <span class="semicolon">:</span>
+                                <span id="seconds">00</span>
                             </div>
-                            <div>
-                                <p class="time" id="hours">00</p>
-                                <p class="label">HOURS</p>
+                        </div>
+
+                        <!-- Info cards -->
+                        <div class="info-grid">
+                            <div class="info-card credits">
+                                <div class="info-card-label">Credits</div>
+                                <div class="info-card-value">&#8369;0</div>
                             </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
+                            <div class="info-card cpoints">
+                                <div class="info-card-label">CPoints</div>
+                                <div class="info-card-value">0</div>
                             </div>
-                            <div>
-                                <p class="time" id="minutes">00</p>
-                                <p class="label">MINUTES</p>
+                            <div class="info-card expiry">
+                                <div class="info-card-label">Expiry</div>
+                                <div class="info-card-value" id="expiry">--</div>
                             </div>
-                            <div>
-                                <p class="separator semicolon">:</p>
-                                <p class="separator-hidden">|</p>
+                        </div>
+
+                        <!-- Device / Data toggles -->
+                        <div class="dropdown-row">
+                            <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false">
+                                <span>&#x2139; Device</span>
+                                <span class="dropdown-caret">&#x25BC;</span>
+                            </button>
+                            <button type="button" class="dropdown-btn" onclick="toggleDropdown('dataInfo', this)" aria-expanded="false">
+                                <span>&#x2261; Data</span>
+                                <span class="dropdown-caret">&#x25BC;</span>
+                            </button>
+                        </div>
+
+                        <div class="dropdown-content" id="deviceInfo">
+                            <div class="info-row">
+                                <span class="info-label">IP</span>
+                                <span class="info-value">$(ip)</span>
                             </div>
-                            <div>
-                                <p class="time" id="seconds">00</p>
-                                <p class="label">SECONDS</p>
+                            <div class="info-row">
+                                <span class="info-label">MAC</span>
+                                <span class="info-value">$(mac)</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">NodeMCU</span>
+                                <span class="info-value"><span class="vendo-dot"></span></span>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-content" id="dataInfo">
+                            <div class="info-row">
+                                <span class="info-label">Plan</span>
+                                <span class="info-value">Unlimited</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status</span>
+                                <span class="info-value">Awaiting login</span>
                             </div>
                         </div>
 
                         $(if trial == "no")
-                        <div class="flex-between bordered-thin mt-n10" id="resumeWrapper" style="display:none">
-                            <button type="button" id="resumeButton" style="width: 100%;" onclick="doResume()">RESUME</button>
+                        <div id="resumeWrapper" style="display:none; margin-bottom:0.6rem">
+                            <button type="button" id="resumeButton" class="btn btn-warning" onclick="doResume()">
+                                <span>RESUME</span>
+                            </button>
                         </div>
 
-                        <button type="button" class="btn" onclick="openModal(0)" id="insert-coin-button"
-                            user-type="new" aria-label="Insert coin to purchase access">
-                            <strong>INSERT COIN</strong>
-                            <div id="container-stars">
-                                <div id="stars"></div>
-                            </div>
-                            <div id="glow">
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                            </div>
+                        <!-- Insert Coin (primary) -->
+                        <button type="button" class="btn btn-success" id="insert-coin-button" user-type="new" onclick="openModal(0)" aria-label="Insert coin to purchase access">
+                            <span>&#x1F4B0;</span>
+                            <span>Insert Coin</span>
                         </button>
 
-                        <div class="bordered">
-                            <div class="inputBox mb-20">
-                                <input type="text" id="convertVoucherInput" aria-label="Voucher code">
-                                <span>Voucher</span>
-                            </div>
-                            <div class="mb-10">
-                                <button type="button" onclick="initConvertVoucher()">SUBMIT</button>
-                            </div>
+                        <!-- Action grid: only hotspot-supported buttons -->
+                        <div class="action-grid">
+                            <button type="button" class="btn btn-primary" id="ratesButton" onclick="openModal(2)">
+                                <span>WiFi Rates</span>
+                            </button>
+                            <button type="button" class="btn btn-primary" id="voucherButton" onclick="openModal(6)">
+                                <span>Vouchers</span>
+                            </button>
+                        </div>
+                        <div class="action-grid">
+                            <button type="button" class="btn btn-primary" id="memberButton" onclick="openModal(1)">
+                                <span>Member</span>
+                            </button>
                             <div id="gcash-button-wrapper"></div>
                         </div>
                         $(else)
-                        <button type="button" class="btn" onclick="openModal(5)" aria-label="Start free trial">
-                            <strong>FREE TRIAL</strong>
-                            <div id="container-stars">
-                                <div id="stars"></div>
-                            </div>
-                            <div id="glow">
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                            </div>
+                        <button type="button" class="btn btn-success" onclick="openModal(5)" aria-label="Start free trial">
+                            <span>Start Free Trial</span>
                         </button>
                         $(endif)
-                    </section>
 
-                    <footer class="footer flex">
-                        <button type="button" id="memberButton" class="footer-button" onclick="openModal(1)">MEMBER</button>
-                        <button type="button" id="ratesButton" class="footer-button" onclick="openModal(2)">RATES</button>
-                    </footer>
+                        <div class="footer-credit">
+                            Powered by <a href="#" target="_blank">LPB Piso Wifi</a>
+                        </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -156,25 +199,23 @@
     <!-- modal[0] : insert coin -->
     <div class="modal" role="dialog" aria-modal="true" aria-label="Insert coin">
         <div class="modal-content">
-            <div class="modal-head mb-20"><span>Please insert coin</span></div>
+            <div class="modal-head"><span>Please insert coin</span></div>
             <div class="modal-body">
-                <div>
-                    <div class="progress-circle">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
-                            <circle id="progress-value" class="progress-value" cx="50" cy="50" r="40"
-                                stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-                        </svg>
-                        <div class="progress-text" id="userTime">0h:0m</div>
-                    </div>
-                    <div class="insert-coin-details p-10 flex-between mb-10">
-                        <span>COINS</span>
-                        <span id="userCoin">0</span>
-                    </div>
-                    <div class="insert-coin-details p-10 flex-between">
-                        <span>VOUCHER</span>
-                        <span id="userCode">******</span>
-                    </div>
+                <div class="progress-circle">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                        <circle id="progress-value" class="progress-value" cx="50" cy="50" r="40"
+                            stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                    </svg>
+                    <div class="progress-text" id="userTime">0h:0m</div>
+                </div>
+                <div class="insert-coin-details">
+                    <span>COINS</span>
+                    <span id="userCoin">0</span>
+                </div>
+                <div class="insert-coin-details">
+                    <span>VOUCHER</span>
+                    <span id="userCode">******</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -195,7 +236,7 @@
                     <input type="hidden" name="popup" value="true" />
                     <input name="memusername" type="text" placeholder="Username" required />
                     <input name="mempassword" type="password" placeholder="Password" required />
-                    <input type="submit" value="LOGIN" class="button" class="mt-20" />
+                    <input type="submit" value="LOGIN" class="button" />
                 </form>
             </div>
             <div class="modal-footer">
@@ -237,11 +278,9 @@
 
     <!-- modal[4] : notification -->
     <div class="modal" role="alertdialog" aria-modal="true" aria-label="Notification">
-        <div class="modal-content" style="width: 90%;">
-            <div class="modal-body-notification p-10">
-                <center>
-                    <h2 id="notificationMessage"></h2>
-                </center>
+        <div class="modal-content" style="max-width: 90%;">
+            <div class="modal-body-notification">
+                <h2 id="notificationMessage"></h2>
             </div>
         </div>
     </div>
@@ -250,13 +289,26 @@
     <div class="modal" role="dialog" aria-modal="true" aria-label="Free trial">
         <div class="modal-content">
             <div class="modal-body">
-                <center>
-                    <div id="trial-image-wrapper" class="mb-20">
-                        <img src="img/ads.png" alt="Advertisement">
-                    </div>
-                    <p>Free trial user (login in <span id="trial-timer">10</span>s)</p>
-                </center>
+                <div id="trial-image-wrapper" style="text-align:center; margin-bottom: 12px;">
+                    <img src="img/ads.png" alt="Advertisement">
+                </div>
+                <p style="text-align:center">Free trial user (login in <span id="trial-timer">10</span>s)</p>
                 <a id="trial-link" href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal[6] : voucher input -->
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Voucher">
+        <div class="modal-content">
+            <div class="modal-head"><span>Use voucher</span></div>
+            <div class="modal-body">
+                <p style="color:#6b7280; font-size:13px; margin-bottom:10px">Enter your voucher code to redeem time.</p>
+                <input type="text" id="convertVoucherInput" class="voucher-input" aria-label="Voucher code" placeholder="Voucher code" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal(6)">CLOSE</button>
+                <button type="button" id="proceedInsertCoinButton" onclick="initConvertVoucher()" style="background:#3b82f6;color:#fff">SUBMIT</button>
             </div>
         </div>
     </div>

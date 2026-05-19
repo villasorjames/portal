@@ -1,7 +1,6 @@
 localStorage.removeItem('isPause');
 
-var statusEl = document.getElementById('sessionStatus');
-if (statusEl) statusEl.className = 'session-status green';
+setSessionState('connected');
 
 var modal = document.querySelectorAll('.modal');
 

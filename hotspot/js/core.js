@@ -21,6 +21,47 @@ InsertCoinSound.loop = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+function hideById(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = "none";
+}
+
+function setVendoName(name) {
+    var el = document.getElementById("vendoName");
+    if (el) el.textContent = name || "";
+}
+
+function toggleDropdown(id, btn) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var open = el.classList.toggle("open");
+    if (btn) {
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        var caret = btn.querySelector(".dropdown-caret");
+        if (caret) caret.textContent = open ? "▲" : "▼";
+    }
+}
+
+function setSessionState(state) {
+    var badge = document.getElementById("sessionStatus");
+    if (!badge) return;
+    var allowed = ["disconnected", "connected", "paused"];
+    badge.classList.remove("disconnected", "connected", "paused");
+    if (allowed.indexOf(state) === -1) state = "disconnected";
+    badge.classList.add("status-badge", state);
+    var icon = badge.querySelector(".status-icon");
+    var text = badge.querySelector(".status-text");
+    var labels = { disconnected: "Disconnected", connected: "Connected", paused: "Time Paused" };
+    var icons = { disconnected: "✕", connected: "✔", paused: "⏸" };
+    if (text) text.textContent = labels[state];
+    if (icon) icon.innerHTML = icons[state];
+    var card = document.getElementById("timeCard");
+    if (card) {
+        card.classList.remove("connected", "paused");
+        if (state !== "disconnected") card.classList.add(state);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     if (localStorage.getItem("spacePortalClearCache") === null) {
         localStorage.clear();
@@ -46,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var isStatusPage = typeof sessionTimeLeftSecs !== 'undefined';
 
     if (userType === "extend" && isStatusPage) {
-        document.getElementById("memberButton").style.display = "none";
+        hideById("memberButton");
 
         var hsname = localStorage.getItem("hsname");
         var hotspotTitle = document.getElementById("hotspotName");
@@ -64,7 +105,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
     } else if (!setting.enable_member) {
-        document.getElementById("memberButton").style.display = "none";
+        hideById("memberButton");
+    } else if (setting.hotspot_name) {
+        var titleEl = document.getElementById("hotspotName");
+        if (titleEl) titleEl.textContent = setting.hotspot_name;
     }
 
     if (!isMultiVendo) {
@@ -74,19 +118,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         const matchedVendo = multiVendoIps.find(v => v.hs_address === hsHost);
         if (matchedVendo) {
             vendoIpAddress = matchedVendo.vendo_ip;
-            document.getElementById("vendoName").textContent = "[" + matchedVendo.vendo_name + "]";
+            setVendoName(matchedVendo.vendo_name);
         }
         if (matchedVendo && matchedVendo.voucher_mode) {
-            document.getElementById("insert-coin-button").style.display = "none";
+            hideById("insert-coin-button");
         }
     } else if (multivendoOption === 2) {
         const matchedVendo = multiVendoIps.find(v => v.interface === vlanId);
         if (matchedVendo) {
             vendoIpAddress = matchedVendo.vendo_ip;
-            document.getElementById("vendoName").textContent = "[" + matchedVendo.vendo_name + "]";
+            setVendoName(matchedVendo.vendo_name);
         }
         if (matchedVendo && matchedVendo.voucher_mode) {
-            document.getElementById("insert-coin-button").style.display = "none";
+            hideById("insert-coin-button");
         }
     } else {
         const vendoList = document.getElementById("vendo-list");
@@ -108,30 +152,22 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     sanitizeMac = userMac.replace(/:/g, "");
 
-    if (!setting.enable_insert_coin) {
-        document.getElementById("insert-coin-button").style.display = "none";
-    }
-    if (!setting.enable_wifi_rate) {
-        document.getElementById("ratesButton").style.display = "none";
-    }
-    if (!setting.enable_pause) {
-        document.getElementById("pauseButton").style.display = "none";
-    }
-    if (enableMemberLogout === false) {
-        var memberLogoutBtn = document.getElementById("memberLogoutButton");
-        if (memberLogoutBtn) memberLogoutBtn.style.display = "none";
-    }
+    if (!setting.enable_insert_coin) hideById("insert-coin-button");
+    if (!setting.enable_wifi_rate) hideById("ratesButton");
+    if (!setting.enable_pause) hideById("pauseButton");
+    if (enableMemberLogout === false) hideById("memberLogoutButton");
 
     const gcashWrapper = document.getElementById("gcash-button-wrapper");
-    if (setting.enable_gcash) {
+    if (gcashWrapper && setting.enable_gcash) {
         const gcashBtn = document.createElement("button");
         gcashBtn.id = "gcashBtn";
-        gcashBtn.className = "button";
+        gcashBtn.type = "button";
+        gcashBtn.className = "btn btn-primary";
         gcashBtn.setAttribute(
             "onclick",
             "display_ewalletvoucher_modal('" + setting.gcash_portal_key + "', '" + setting.gcash_node_ip + "', 'username', 'btnLogin');"
         );
-        gcashBtn.textContent = "BUY VOUCHER VIA E-WALLET";
+        gcashBtn.innerHTML = "<span>E-Payment</span>";
         gcashWrapper.appendChild(gcashBtn);
     }
 
@@ -396,6 +432,7 @@ function initConvertVoucher() {
     if (!input) return;
     var value = input.value.trim();
     if (value != '') {
+        if (modal[6]) modal[6].style = 'display: none';
         convertVoucher(value);
     } else {
         showToast('Please input a voucher', 'warning');
@@ -586,6 +623,16 @@ function sessionTimeConvert(seconds) {
     el.hoursEl.textContent = pad2(hours);
     el.minutesEl.textContent = pad2(minutes);
     el.secondsEl.textContent = pad2(secs);
+
+    var remainingEl = document.getElementById("remaining-time");
+    if (remainingEl) {
+        var parts = [];
+        if (days > 0) parts.push(days + "d");
+        parts.push(pad2(hours) + "h");
+        parts.push(pad2(minutes) + "m");
+        parts.push(pad2(secs) + "s");
+        remainingEl.textContent = parts.join(" ");
+    }
 }
 
 var rateLoaded = false;
@@ -603,12 +650,10 @@ async function fetchRatesFromServer() {
         multiVendoArray.forEach(entry => {
             const parts = entry.split("#");
             const row = document.createElement("tr");
-            row.innerHTML = `
-                <tr>
-                    <td>${currency}${parts[1]}</td>
-                    <td>${rateTimeConvert(parts[2] * 60)}</td>
-                    <td>${rateTimeConvert(parts[3] * 60)}</td>
-                </tr>`;
+            row.innerHTML =
+                `<td>${currency}${parts[1]}</td>` +
+                `<td>${rateTimeConvert(parts[2] * 60)}</td>` +
+                `<td>${rateTimeConvert(parts[3] * 60)}</td>`;
             rateList.appendChild(row);
         });
     }
