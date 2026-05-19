@@ -52,11 +52,23 @@ function extractCode(?string $raw, string $prefix): ?string
     return $raw;
 }
 
-// --- API mode: POST do=1&amt=... returns JSON, called by the page via fetch ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do'])) {
+// --- CORS: allow hotspot portal (any origin on local network) to call this ---
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+
+// Handle OPTIONS preflight immediately
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+// --- API mode: GET or POST with do=1&amt=... returns JSON ---
+$isApi = (isset($_POST['do']) || isset($_GET['do']));
+if ($isApi) {
     header('Content-Type: application/json; charset=utf-8');
 
-    $amt = trim((string) ($_POST['amt'] ?? ''));
+    $amt = trim((string) ($_POST['amt'] ?? $_GET['amt'] ?? ''));
     if ($amt === '' || !preg_match('/^\d+(\.\d{1,2})?$/', $amt)) {
         http_response_code(400);
         echo json_encode(['error' => 'Enter a valid amount (numbers only).']);
