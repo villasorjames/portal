@@ -105,23 +105,14 @@
                             <div class="expiry-value" id="expiry">--</div>
                         </div>
 
-                        <!-- Device / Data toggles -->
-                        <div class="dropdown-row">
-                            <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false">
-                                <span class="btn-label">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                                    Device
-                                </span>
-                                <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-                            </button>
-                            <button type="button" class="dropdown-btn" onclick="toggleDropdown('dataInfo', this)" aria-expanded="false">
-                                <span class="btn-label">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                                    Data
-                                </span>
-                                <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-                            </button>
-                        </div>
+                        <!-- Device toggle -->
+                        <button type="button" class="dropdown-btn" onclick="toggleDropdown('deviceInfo', this)" aria-expanded="false" style="width:100%">
+                            <span class="btn-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                Device
+                            </span>
+                            <span class="dropdown-caret"><svg xmlns="http://www.w3.org/2000/svg" class="ico caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+                        </button>
 
                         <div class="dropdown-content" id="deviceInfo">
                             <div class="info-row">
@@ -138,16 +129,6 @@
                             </div>
                         </div>
 
-                        <div class="dropdown-content" id="dataInfo">
-                            <div class="info-row">
-                                <span class="info-label">Plan</span>
-                                <span class="info-value">Unlimited</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Status</span>
-                                <span class="info-value">Awaiting login</span>
-                            </div>
-                        </div>
 
                         $(if trial == "no")
                         <div id="resumeWrapper" style="display:none; margin-bottom:0.6rem">
